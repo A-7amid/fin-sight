@@ -48,7 +48,9 @@ const RecentTransactions = () => {
             <TableHead>Category</TableHead>
             <TableHead>Payment Mode</TableHead>
             <TableHead>Description</TableHead>
-            <TableHead>Amout</TableHead>
+            <div className="flex float-right">
+              <TableHead>Amount</TableHead>
+            </div>
           </TableRow>
         </TableHeader>
 
