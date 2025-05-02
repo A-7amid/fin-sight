@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { cn } from "../utils/clsx";
 import { IoCheckmark } from "react-icons/io5";
 
-const Checkbox = ({ className, title }) => {
+const MainCheckbox = ({ className, title }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   return (
@@ -32,4 +32,4 @@ const Checkbox = ({ className, title }) => {
   );
 };
 
-export default Checkbox;
+export default MainCheckbox;

@@ -111,15 +111,15 @@ const Transactionsbar = () => {
 
         <div>
           <span className="text-white/60 text-sm">Cashflow</span>
-          <Checkbox title={"Income"} />
-          <Checkbox title={"Expense"} />
+          <MainCheckbox title={"Income"} />
+          <MainCheckbox title={"Expense"} />
         </div>
 
         <div>
           <span className="text-white/60 text-sm">Payment Mode</span>
-          <Checkbox title={"Cash"} />
-          <Checkbox title={"Debit Card"} />
-          <Checkbox title={"Credit Card"} />
+          <MainCheckbox title={"Cash"} />
+          <MainCheckbox title={"Debit Card"} />
+          <MainCheckbox title={"Credit Card"} />
         </div>
 
         <div className="text-sm f">
