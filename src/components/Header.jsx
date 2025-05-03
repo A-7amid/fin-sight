@@ -1,4 +1,5 @@
 import React from "react";
+import { DateRangePicker } from "./DateRangePicker";
 
 const Header = () => {
   return (
@@ -7,7 +8,9 @@ const Header = () => {
         Dashboard
       </h3>
 
-      <div className="bg-yellow-500"></div>
+      <div>
+        <DateRangePicker />
+      </div>
     </div>
   );
 };

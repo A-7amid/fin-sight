@@ -1,9 +1,9 @@
 import React from "react";
-import Checkbox from "./checkbox";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { CiFilter } from "react-icons/ci";
 
+import MainCheckbox from "./MainCheckbox";
 const options = [
   { value: "food", label: "Food" },
   { value: "transportation", label: "Transportation" },
