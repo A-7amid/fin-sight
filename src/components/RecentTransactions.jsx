@@ -7,7 +7,6 @@ import {
   TableBody,
   TableCell,
 } from "./ui/table";
-import Spacer from "./Spacer";
 import { cn } from "../utils/clsx";
 
 const recentTransactions = [
@@ -80,19 +79,25 @@ const RecentTransactions = () => {
 
         <TableBody>
           {recentTransactions.map((transaction) => (
-            <TableRow key={transaction.id}>
+            <TableRow className="" key={transaction.id}>
               <TableCell className="font-light text-neutral-400">
                 {transaction.date}
               </TableCell>
+
+              <div className="py-1"></div>
+
               <TableCell
                 className={cn(
-                  `rounded-full text-${transaction.categoryColor} bg-${transaction.categoryColor}/10 border-[1px] border-${transaction.categoryColor} hover:bg-${transaction.categoryColor}/5 transition duration-200 w-fit flex translate-y-1.5 text-sm py-0.5 px-2.5 font-semibold items-center`,
-                  transaction.categoryColor
+                  `rounded-full text-${transaction.categoryColor} translate-x-3 bg-${transaction.categoryColor}/10 border-[1px] border-${transaction.categoryColor}
+                   hover:bg-${transaction.categoryColor}/5 transition duration-200 w-fit flex text-xs py-0.5 px-2.5 font-medium items-center`
                 )}
               >
                 {transaction.category}
               </TableCell>
-              <TableCell>{transaction.paymentMode}</TableCell>
+              <div className="py-1"></div>
+              <TableCell className="text-neutral-300">
+                {transaction.paymentMode}
+              </TableCell>
               <TableCell>{transaction.description}</TableCell>
               <TableCell className="text-end text-green-500 font-mono">
                 {transaction.amount}
