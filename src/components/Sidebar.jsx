@@ -34,12 +34,12 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        "bg-[#121216] flex flex-col sticky border-r gap-y-4 px-5 border-neutral-800 text-[#f8fafc]"
+        "bg-[#121216] flex flex-col sticky border-r gap-y-4 border-neutral-800 text-[#f8fafc]"
       )}
     >
-      <div className="p-2 flex justify-center items-center ">
+      <div className="flex justify-center items-center px-5">
         <h3
-          className="bg-gradient-to-r from-cyan-400 to-indigo-400 font-bold text-2xl inline-block pt-2 items-center justify-center text-transparent
+          className="bg-gradient-to-r w-fit from-cyan-400 to-indigo-400 font-bold text-2xl inline-block pt-4 items-center justify-center text-transparent
        bg-clip-text"
         >
           FinSight
@@ -48,16 +48,13 @@ const Sidebar = () => {
 
       <Separator />
 
-      <div className="px-2 flex flex-col gap-y-4 items-center justify-center mx-8">
-        <div className="rounded-full flex bg-white border-2 size-20">
-          {/* <img src="" alt="" /> */}
-        </div>
-
+      <div className="flex flex-col gap-y-4 items-center justify-center mx-8 px-7">
+        <div className="rounded-full flex strok-1 size-20 bg-white"></div>
         <span className="fond-semibold text-lg">Ali Ahmed</span>
 
         <div className="rounded-2xl gap-x-2 flex px-3 py-1 items-center">
           <span className="text-sm font-semibold text-[#94939b]">Balance</span>
-          <span className="font-semibold text-lg bg-gradient-to-r from-cyan-400 to-indigo-400 text-transparent bg-clip-text">
+          <span className="font-bold text-xl bg-gradient-to-r from-cyan-400 to-indigo-400 text-transparent bg-clip-text">
             $5,240
           </span>
         </div>
@@ -65,7 +62,7 @@ const Sidebar = () => {
 
       <Separator />
 
-      <div className="flex flex-col gap-y-0.5 text-sm font-medium text-[#A1A1AA]">
+      <div className="flex flex-col gap-y-0.5 text-sm font-medium text-[#A1A1AA] px-5">
         {pages.map((page) => (
           <NavLink
             key={page.id}

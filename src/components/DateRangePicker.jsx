@@ -32,7 +32,7 @@ export function DateRangePicker({ className }) {
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className="-translate-y-0.5 stroke-neutral-400" />
+            <CalendarIcon className="stroke-neutral-400" />
             {date?.from ? (
               date.to ? (
                 <>

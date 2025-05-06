@@ -1,5 +1,4 @@
 // tailwind.config.js
-const { heroui } = require("@heroui/theme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -13,8 +12,12 @@ module.exports = {
   ],
 
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
+      },
+    },
   },
   darkMode: "class",
-  plugins: [heroui()],
+  plugins: [],
 };

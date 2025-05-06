@@ -8,7 +8,7 @@ import RecentTransactions from "./RecentTransactions";
 
 const Dashboard = () => {
   return (
-    <div className="mx-auto bg-neutral-950 container px-6 py-3 gap-y-6 flex flex-col">
+    <div className="w-full container mx-auto bg-neutral-950 px-6 py-3 gap-y-6 flex flex-col">
       <Header />
 
       <StatCards />

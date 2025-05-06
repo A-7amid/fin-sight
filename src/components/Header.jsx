@@ -8,9 +8,7 @@ const Header = () => {
         Dashboard
       </h3>
 
-      <div>
         <DateRangePicker />
-      </div>
     </div>
   );
 };
