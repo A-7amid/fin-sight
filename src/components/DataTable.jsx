@@ -1,0 +1,442 @@
+import React from "react";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { cn } from "../utils/clsx";
+
+const data = [
+  {
+    id: "1",
+    category: "Food",
+    date: "2023-10-01",
+    paymentMode: "Credit Card",
+    description: "Weekly grocery shopping",
+    amount: 316,
+    categoryColor: "#FF5733", // Orange-Red for Food
+  },
+  {
+    id: "2",
+    category: "Utilities",
+    date: "2023-10-02",
+    paymentMode: "Bank Transfer",
+    description: "Electricity bill payment",
+    amount: 242,
+    categoryColor: "#3498DB", // Blue for Utilities
+  },
+  {
+    id: "3",
+    category: "Entertainment",
+    date: "2023-10-03",
+    paymentMode: "Debit Card",
+    description: "Movie tickets",
+    amount: 837,
+    categoryColor: "#9B59B6", // Purple for Entertainment
+  },
+  {
+    id: "4",
+    category: "Dining",
+    date: "2023-10-04",
+    paymentMode: "Cash",
+    description: "Dinner at a restaurant",
+    amount: 874,
+    categoryColor: "#E67E22", // Orange for Dining
+  },
+  {
+    id: "5",
+    category: "Transportation",
+    date: "2023-10-05",
+    paymentMode: "Mobile Payment",
+    description: "Taxi fare",
+    amount: 721,
+    categoryColor: "#1ABC9C", // Teal for Transportation
+  },
+  {
+    id: "6",
+    category: "Shopping",
+    date: "2023-10-06",
+    paymentMode: "Credit Card",
+    description: "Clothing purchase",
+    amount: 450,
+    categoryColor: "#F39C12", // Yellow-Orange for Shopping
+  },
+  {
+    id: "7",
+    category: "Housing",
+    date: "2023-10-07",
+    paymentMode: "Bank Transfer",
+    description: "Monthly rent payment",
+    amount: 1200,
+    categoryColor: "#2ECC71", // Green for Housing
+  },
+  {
+    id: "8",
+    category: "Bills",
+    date: "2023-10-08",
+    paymentMode: "Debit Card",
+    description: "Internet bill",
+    amount: 100,
+    categoryColor: "#E74C3C", // Red for Bills
+  },
+  {
+    id: "9",
+    category: "Extra income",
+    date: "2023-10-09",
+    paymentMode: "Bank Transfer",
+    description: "Freelance project payment",
+    amount: 500,
+    categoryColor: "#8E44AD", // Purple for Extra income
+  },
+  {
+    id: "10",
+    category: "Personal Care",
+    date: "2023-10-10",
+    paymentMode: "Cash",
+    description: "Haircut",
+    amount: 50,
+    categoryColor: "#FFC300", // Bright Yellow for Personal Care
+  },
+  {
+    id: "11",
+    category: "Interests",
+    date: "2023-10-11",
+    paymentMode: "Credit Card",
+    description: "Hobby supplies",
+    amount: 200,
+    categoryColor: "#2980B9", // Deep Blue for Interests
+  },
+  {
+    id: "12",
+    category: "Miscellaneous",
+    date: "2023-10-12",
+    paymentMode: "Cash",
+    description: "Random expenses",
+    amount: 75,
+    categoryColor: "#95A5A6", // Gray for Miscellaneous
+  },
+  {
+    id: "13",
+    category: "Health Care",
+    date: "2023-10-13",
+    paymentMode: "Bank Transfer",
+    description: "Doctor's appointment",
+    amount: 150,
+    categoryColor: "#C0392B", // Dark Red for Health Care
+  },
+  {
+    id: "14",
+    category: "Insurance",
+    date: "2023-10-14",
+    paymentMode: "Bank Transfer",
+    description: "Car insurance premium",
+    amount: 300,
+    categoryColor: "#34495E", // Dark Blue-Gray for Insurance
+  },
+  {
+    id: "15",
+    category: "Salary",
+    date: "2023-10-15",
+    paymentMode: "Bank Transfer",
+    description: "Monthly salary",
+    amount: 3000,
+    categoryColor: "#27AE60", // Green for Salary
+  },
+  {
+    id: "16",
+    category: "Tax",
+    date: "2023-10-16",
+    paymentMode: "Bank Transfer",
+    description: "Quarterly tax payment",
+    amount: 500,
+    categoryColor: "#D35400", // Burnt Orange for Tax
+  },
+  {
+    id: "17",
+    category: "Education",
+    date: "2023-10-17",
+    paymentMode: "Credit Card",
+    description: "Online course fee",
+    amount: 200,
+    categoryColor: "#5DADE2", // Light Blue for Education
+  },
+  {
+    id: "18",
+    category: "Mortgage / Rent",
+    date: "2023-10-18",
+    paymentMode: "Bank Transfer",
+    description: "Monthly mortgage payment",
+    amount: 1500,
+    categoryColor: "#1F618D", // Navy Blue for Mortgage / Rent
+  },
+];
+
+export const columns = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "date",
+    header: "Date",
+    cell: ({ row }) => <div className="capitalize">{row.getValue("date")}</div>,
+  },
+  {
+    accessorKey: "category",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className={cn(``)}>{row.getValue("category")}</div>,
+  },
+  {
+    accessorKey: "paymentMode",
+    header: () => <div className="text-right">Payment Mode</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("paymentMode"));
+
+      // Format the amount as a dollar amount
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(amount);
+
+      return <div className="text-right font-medium">{formatted}</div>;
+    },
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const transiction = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(transiction.id)}
+            >
+              Copy transiction ID
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem>View transiction details</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+];
+
+const hh = "white";
+
+export function DataTable() {
+  const [sorting, setSorting] = React.useState([]);
+  const [columnFilters, setColumnFilters] = React.useState([]);
+  const [columnVisibility, setColumnVisibility] = React.useState({});
+  const [rowSelection, setRowSelection] = React.useState({});
+
+  const table = useReactTable({
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+    },
+  });
+
+  return (
+    <div className="w-full">
+      <div className="flex items-center">
+        <Input
+          placeholder="Search..."
+          value={table.getColumn("category")?.getFilterValue() ?? ""}
+          onChange={(event) =>
+            table.getColumn("category")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm border border-neutral-800"
+        />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              className="ml-auto border border-neutral-800 py-4"
+            >
+              Columns <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="bg-[#121216] text-zinc-100 border border-neutral-800"
+            align="end"
+          >
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <div className="rounded-md border border-neutral-800">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className="data-[state=selected]:bg-white/10 py-10"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      <div
+                        className={cn(
+                          `rounded-2xl bg-[${cell.row.original.categoryColor}] text-white`
+                        )}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </div>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className="space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

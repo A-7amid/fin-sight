@@ -8,9 +8,7 @@ function Home() {
   return (
     <div
       style={{ "--background": "240 10% 4%" }}
-      className={cn(
-        "flex min-h-screen max-h-full bg-[hsl(var(--background))] text-neutral-50"
-      )}
+      className={cn("flex min-h-screen max-h-full text-neutral-50")}
     >
       <Sidebar />
 

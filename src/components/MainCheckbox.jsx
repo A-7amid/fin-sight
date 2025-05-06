@@ -12,7 +12,7 @@ const MainCheckbox = ({ className, title }) => {
     >
       <div
         className={cn(
-          "border-blue-300 border-2 p-[1px] size-[18px] duration-100 transition rounded-sm text-[#121216] cursor-pointer flex items-center justify-center",
+          "border-blue-300 border-2 p-[1px] size-[18px] duration-100 transition rounded-sm cursor-pointer flex items-center justify-center",
           className,
           {
             "bg-blue-300": isChecked,
@@ -22,10 +22,7 @@ const MainCheckbox = ({ className, title }) => {
         <IoCheckmark />
       </div>
 
-      <span
-        id={title}
-        className="font-semibold text-md text-neutral-300 cursor-pointer hover:text-white transition duration-75"
-      >
+      <span id={title} className="font-medium cursor-pointer text-sm">
         {title}
       </span>
     </label>

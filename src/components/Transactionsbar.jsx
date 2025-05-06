@@ -1,7 +1,8 @@
 import React from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { CiFilter } from "react-icons/ci";
+import { BsCurrencyDollar } from "react-icons/bs";
+import { GiSettingsKnobs } from "react-icons/gi";
 
 import MainCheckbox from "./MainCheckbox";
 const options = [
@@ -29,13 +30,15 @@ const animatedComponents = makeAnimated();
 
 const Transactionsbar = () => {
   return (
-    <div className="flex flex-col border border-neutral-800 p-4 h-screen w-[410px] bg-[#121216] text-neutral-50">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col border border-neutral-800 h-screen w-[440px] bg-[#121216]">
+      <div className="flex items-center m-4 gap-x-4">
+        <GiSettingsKnobs className="size-5 rotate-90 stroke-2 stroke-gray-400" />
         <h3 className="text-xl font-semibold">Filters</h3>
-        <CiFilter className="size-6 stroke-1 stroke-gray-400" />
       </div>
 
-      <div className="flex flex-col gap-y-4 mt-4">
+      <div className="h-px w-full bg-neutral-800"></div>
+
+      <div className="flex flex-col gap-y-8 p-4 mt-4">
         <div className="flex flex-col gap-2">
           <span className="text-white/60 text-sm">Select a range</span>
           <input type="date" />
@@ -110,38 +113,69 @@ const Transactionsbar = () => {
         </div>
 
         <div>
-          <span className="text-white/60 text-sm">Cashflow</span>
-          <MainCheckbox title={"Income"} />
-          <MainCheckbox title={"Expense"} />
+          <span className="text-neutral-300 text-sm mb-2 flex font-semibold">
+            Cashflow
+          </span>
+
+          <div className="grid grid-cols-2 items-center">
+            <MainCheckbox title={"Income"} />
+            <MainCheckbox title={"Expense"} />
+          </div>
         </div>
 
         <div>
-          <span className="text-white/60 text-sm">Payment Mode</span>
-          <MainCheckbox title={"Cash"} />
-          <MainCheckbox title={"Debit Card"} />
-          <MainCheckbox title={"Credit Card"} />
+          <span className="text-white/60 text-sm mb-2 flex font-semibold">
+            Payment Mode
+          </span>
+          <div className="flex flex-col gap-y-1.5">
+            <MainCheckbox title={"Cash"} />
+            <MainCheckbox title={"Debit Card"} />
+            <MainCheckbox title={"Credit Card"} />
+          </div>
         </div>
 
-        <div className="text-sm f">
-          <span className="text-white/60 text-sm mb-1">Amount</span>
+        <div className="text-sm ">
+          <span className="text-sm mb-2 flex font-semibold">Amount Range</span>
 
-          <div className="flex items-center gap-x-2">
-            <div className="flex border items-center rounded-md border-neutral-800 p-2">
-              <span className="text-white/60">Min :</span>
-              <input
-                type="number"
-                className="outline-none w-16 font-semibold"
-              />
+          <div className="flex items-center gap-x-4">
+            <div>
+              <span className="text-[#6b6b70] text-xs">Min Amount</span>
+              <div className="flex border items-center gap-x-1 rounded-md bg-[#1b1b21] w-full border-neutral-800 p-2 px-2">
+                <div className="flex items-center gap-x-2">
+                  <BsCurrencyDollar className="text-xl text-neutral-400" />
+
+                  <input
+                    type="number"
+                    className="outline-none w-full font-semibold"
+                    onInput={(e) => {
+                      if (e.target.value.length > 8) {
+                        e.target.value = e.target.value.slice(0, 8);
+                      }
+                    }}
+                  />
+                </div>
+              </div>
             </div>
 
-            <div className="h-px bg-blue-400 w-2.5"></div>
+            {/* <div className="h-px bg-blue-400 w-2.5"></div> */}
 
-            <div className="flex flex-row border rounded-md border-neutral-800 p-2">
-              <span className="text-white/60">Max :</span>
-              <input
-                type="number"
-                className="outline-none w-16 font-semibold"
-              />
+            <div>
+              <span className="text-[#6b6b70] text-xs">Max Amount</span>
+              <div className="flex border rounded-md gap-x-1 bg-[#1b1b21] w-full border-neutral-800 p-2 px-2">
+                <div className="flex items-center gap-x-2">
+                  <BsCurrencyDollar className="text-xl text-neutral-400" />
+
+                  <input
+                    type="number"
+                    className="outline-none w-full font-semibold"
+                    onInput={(e) => {
+                      if (e.target.value.length > 8) {
+                        e.target.value = e.target.value.slice(0, 8);
+                      }
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

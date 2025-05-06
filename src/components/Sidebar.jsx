@@ -34,12 +34,17 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        "bg-[#121216] flex flex-col sticky border-r gap-y-4 border-neutral-800 text-[#f8fafc] px-5 "
+        "bg-[#121216] flex flex-col sticky border-r gap-y-4 px-5 border-neutral-800 text-[#f8fafc]"
       )}
     >
-      <h3 className="p-2 flex items-center justify-center text-[#00aeef] font-bold text-2xl">
-        FinSight
-      </h3>
+      <div className="p-2 flex justify-center items-center ">
+        <h3
+          className="bg-gradient-to-r from-cyan-400 to-indigo-400 font-bold text-2xl inline-block pt-2 items-center justify-center text-transparent
+       bg-clip-text"
+        >
+          FinSight
+        </h3>
+      </div>
 
       <Separator />
 
@@ -50,9 +55,11 @@ const Sidebar = () => {
 
         <span className="fond-semibold text-lg">Ali Ahmed</span>
 
-        <div className="rounded-2xl bg-[#00B0F0]/10 gap-x-2 flex px-3 py-1 text-[#00B0F0] ">
-          <span>Balance</span>
-          <span className="font-medium">$5,240</span>
+        <div className="rounded-2xl gap-x-2 flex px-3 py-1 items-center">
+          <span className="text-sm font-semibold text-[#94939b]">Balance</span>
+          <span className="font-semibold text-lg bg-gradient-to-r from-cyan-400 to-indigo-400 text-transparent bg-clip-text">
+            $5,240
+          </span>
         </div>
       </div>
 

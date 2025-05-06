@@ -20,12 +20,15 @@ export function DateRangePicker({ className }) {
   return (
     <div className={cn("grid gap-2 items-center", className)}>
       <Popover>
-        <PopoverTrigger className="flex items-center" asChild>
+        <PopoverTrigger
+          className="flex items-center border hover:bg-neutral-800 hover:text-white border-neutral-800"
+          asChild
+        >
           <Button
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[300px] justify-start border cursor-pointer items-center hover:bg-neutral-800 hover:text-white border-neutral-800 text-left font-normal",
+              "w-[300px] justify-start border cursor-pointer items-center",
               !date && "text-muted-foreground"
             )}
           >
@@ -44,7 +47,10 @@ export function DateRangePicker({ className }) {
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent
+          className="w-auto p-0 border bg-[#121216] text-white border-neutral-800"
+          align="end"
+        >
           <Calendar
             initialFocus
             mode="range"

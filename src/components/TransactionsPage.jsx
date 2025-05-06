@@ -9,12 +9,14 @@ const TransactionsPage = () => {
     <div
       style={{ "--background": "240 10% 4%" }}
       className={cn(
-        "flex min-h-screen max-h-full bg-[hsl(var(--background))] text-neutral-50"
+        "flex min-h-screen max-h-full bg-neutral-950 text-neutral-50"
       )}
     >
       <Sidebar />
 
-      <Transactions />
+      <div className="flex mx-5 flex-col w-full">
+        <Transactions />
+      </div>
 
       <Transactionsbar />
     </div>

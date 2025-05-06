@@ -41,6 +41,18 @@
   @apply transition duration-200 items-center justify-start flex gap-x-2.5 w-full px-3 py-2 hover:text-white hover:bg-[#27272A] rounded-md cursor-pointer;
 }
 
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+  }
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
