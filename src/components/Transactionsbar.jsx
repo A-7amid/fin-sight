@@ -3,9 +3,8 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { GiSettingsKnobs } from "react-icons/gi";
-import { ChevronDown, X } from "lucide-react";
 import MainCheckbox from "./MainCheckbox";
-import { Badge } from "./ui/badge";
+import { DateRangePicker } from "./DateRangePicker";
 
 const categoryOptions = [
   { value: "food", label: "Food" },
@@ -65,6 +64,8 @@ const style = {
     cursor: "pointer",
     borderRadius: "0.25rem",
     margin: "2px 0",
+    fontSize: "0.875rem", // Smaller font size (14px)
+    padding: "4px 8px", // Reduced padding
     transition: "all 0.15s ease",
     "&:active": {
       backgroundColor: "#4338ca",
@@ -87,11 +88,23 @@ const style = {
   }),
   multiValueRemove: (base) => ({
     ...base,
+    width: "20px",
     color: "#a1a1aa",
-    paddingLeft: "4px",
-    paddingRight: "4px",
+    height: "20px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingLeft: "2px",
+    paddingRight: "2px",
     borderLeft: "1px solid #3f3f46",
     borderRadius: "0 0.25rem 0.25rem 0",
+
+    "& svg": {
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+
     "&:hover": {
       backgroundColor: "#3f3f46",
       color: "#f4f4f5",
@@ -99,21 +112,37 @@ const style = {
   }),
   dropdownIndicator: (base, state) => ({
     ...base,
-    color: "#a1a1aa",
-    padding: "0 8px",
+    // color: "#a1a1aa",
+    // padding: "0 8px",
     transition: "transform 0.2s ease",
     transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "none",
-    "&:hover": {
-      color: "#818cf8",
+    // "&:hover": {
+    //   color: "#818cf8",
+    // },
+    "& svg": {
+      width: "16px",
+      height: "16px",
+      color: "#737379",
     },
   }),
   clearIndicator: (base) => ({
     ...base,
-    color: "#a1a1aa",
-    padding: "0 8px",
+    color: "#a1a1aa ",
+    padding: "3px",
+    display: "flex",
     borderRadius: "50%",
+
+    "& svg": {
+      width: "16px",
+      height: "16px",
+      color: "#a1a1aa",
+      "&:hover": {
+        color: "white",
+      },
+    },
     "&:hover": {
-      color: "#818cf8",
+      cursor: "pointer",
+      color: "white",
       backgroundColor: "#3f3f46",
     },
   }),
@@ -153,10 +182,6 @@ const Transactionsbar = () => {
     categoryOptions[4],
   ]);
 
-  const handleRemoveOption = (optionToRemove) => {
-    selectedOptions.filter((option) => option !== optionToRemove.value);
-  };
-
   const handleLimitation = (e) => {
     if (e.target.value.length > 8) {
       e.target.value = e.target.value.slice(0, 8);
@@ -165,17 +190,17 @@ const Transactionsbar = () => {
 
   return (
     <div className="flex flex-col border border-neutral-800 min-h-screen max-h-full w-[440px] bg-[#121216]">
-      <div className="flex items-center m-4 gap-x-4">
-        <GiSettingsKnobs className="size-5 rotate-90 stroke-2 stroke-gray-400" />
+      <div className="flex items-center m-4 justify-between">
         <h3 className="text-xl font-semibold">Filters</h3>
+        <GiSettingsKnobs className="size-5 rotate-90 stroke-2 stroke-gray-400" />
       </div>
 
       <div className="h-px w-full bg-neutral-800"></div>
 
-      <div className="flex flex-col gap-y-8 p-4 mt-4">
+      <div className="flex flex-col gap-y-8 p-4">
         <div className="flex flex-col gap-2">
           <span className="text-white/60 text-sm">Select a range</span>
-          <input type="date" />
+          <DateRangePicker />
         </div>
 
         <div>
@@ -193,58 +218,6 @@ const Transactionsbar = () => {
             placeholder="Select categories..."
             styles={style}
           />
-
-          {/* <Select
-  isMulti
-  value={selectedOptions}
-  onChange={setSelectedOptions}
-  name="categories"
-  className="category-multi-select"
-  classNamePrefix="category-select"
-  components={{
-    ...animatedComponents,
-    MultiValue: ({ data, removeProps }) => (
-      <Badge
-        variant="outline"
-        className="bg-zinc-800 text-zinc-100 border-zinc-700 mr-1.5 mb-1 flex items-center gap-1 pl-2.5 pr-1 py-1 hover:bg-zinc-700 transition-colors"
-      >
-        {data.label}
-        <button
-          {...removeProps}
-          className="ml-1 rounded-full p-0.5 hover:bg-zinc-600 focus:outline-none focus:ring-1 focus:ring-indigo-400"
-        >
-          <X
-            size={14}
-            className="cursor-pointer text-zinc-400 hover:text-zinc-100"
-          />
-        </button>
-      </Badge>
-    ),
-    DropdownIndicator: (props) => (
-      <ChevronDown
-        size={16}
-        className={`text-zinc-400 transition-transform duration-200 mr-2 ${
-          props.selectProps.menuIsOpen ? "rotate-180" : ""
-        }`}
-      />
-    ),
-    ClearIndicator: (props) => (
-      <button
-        {...props.innerProps}
-        className="mr-2 rounded-full p-1 hover:bg-zinc-700 focus:outline-none focus:ring-1 focus:ring-indigo-400"
-      >
-        <X
-          size={14}
-          onClick={() => setSelectedOptions([])}
-          className="text-zinc-400 cursor-pointer hover:text-zinc-100"
-        />
-      </button>
-    ),
-  }}
-  options={categoryOptions}
-  placeholder="Select categories..."
-  styles={style}
-/> */}
         </div>
 
         <div>
