@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { GiSettingsKnobs } from "react-icons/gi";
-
+import { ChevronDown, X } from "lucide-react";
 import MainCheckbox from "./MainCheckbox";
-const options = [
+import { Badge } from "./ui/badge";
+
+const categoryOptions = [
   { value: "food", label: "Food" },
   { value: "transportation", label: "Transportation" },
   { value: "mortgage_rent", label: "Mortgage / Rent" },
@@ -26,11 +28,143 @@ const options = [
   { value: "education", label: "Education" },
 ];
 
+const style = {
+  control: (base, state) => ({
+    ...base,
+    backgroundColor: "#18181b",
+    borderColor: state.isFocused ? "#818cf8" : "#3f3f46",
+    borderRadius: "0.375rem",
+    boxShadow: state.isFocused ? "0 0 0 1px #818cf8" : "none",
+    padding: "2px 4px",
+    "&:hover": {
+      borderColor: "#818cf8",
+    },
+    transition: "all 0.2s ease",
+  }),
+  menu: (base) => ({
+    ...base,
+    backgroundColor: "#18181b",
+    borderRadius: "0.375rem",
+    boxShadow:
+      "0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1)",
+    overflow: "hidden",
+    zIndex: 10,
+  }),
+  menuList: (base) => ({
+    ...base,
+    padding: "4px",
+  }),
+  option: (base, state) => ({
+    ...base,
+    backgroundColor: state.isFocused
+      ? "#27272a"
+      : state.isSelected
+      ? "#4f46e5"
+      : "#18181b",
+    color: state.isSelected ? "white" : "#d4d4d8",
+    cursor: "pointer",
+    borderRadius: "0.25rem",
+    margin: "2px 0",
+    transition: "all 0.15s ease",
+    "&:active": {
+      backgroundColor: "#4338ca",
+    },
+  }),
+  multiValue: (base) => ({
+    ...base,
+    backgroundColor: "#27272a",
+    border: "1px solid #3f3f46",
+    borderRadius: "0.25rem",
+    margin: "0 6px 2px 0",
+    display: "flex",
+    alignItems: "center",
+  }),
+  multiValueLabel: (base) => ({
+    ...base,
+    color: "#e4e4e7",
+    padding: "2px 6px",
+    fontSize: "0.875rem",
+  }),
+  multiValueRemove: (base) => ({
+    ...base,
+    color: "#a1a1aa",
+    paddingLeft: "4px",
+    paddingRight: "4px",
+    borderLeft: "1px solid #3f3f46",
+    borderRadius: "0 0.25rem 0.25rem 0",
+    "&:hover": {
+      backgroundColor: "#3f3f46",
+      color: "#f4f4f5",
+    },
+  }),
+  dropdownIndicator: (base, state) => ({
+    ...base,
+    color: "#a1a1aa",
+    padding: "0 8px",
+    transition: "transform 0.2s ease",
+    transform: state.selectProps.menuIsOpen ? "rotate(180deg)" : "none",
+    "&:hover": {
+      color: "#818cf8",
+    },
+  }),
+  clearIndicator: (base) => ({
+    ...base,
+    color: "#a1a1aa",
+    padding: "0 8px",
+    borderRadius: "50%",
+    "&:hover": {
+      color: "#818cf8",
+      backgroundColor: "#3f3f46",
+    },
+  }),
+  input: (base) => ({
+    ...base,
+    color: "white",
+    margin: "0",
+    padding: "0",
+  }),
+  placeholder: (base) => ({
+    ...base,
+    color: "#71717a",
+  }),
+  singleValue: (base) => ({
+    ...base,
+    color: "white",
+  }),
+  valueContainer: (base) => ({
+    ...base,
+    padding: "2px 6px",
+    flexWrap: "wrap",
+  }),
+  indicatorsContainer: (base) => ({
+    ...base,
+    alignItems: "center",
+  }),
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
+
 const animatedComponents = makeAnimated();
 
 const Transactionsbar = () => {
+  const [selectedOptions, setSelectedOptions] = useState([
+    categoryOptions[3],
+    categoryOptions[4],
+  ]);
+
+  const handleRemoveOption = (optionToRemove) => {
+    selectedOptions.filter((option) => option !== optionToRemove.value);
+  };
+
+  const handleLimitation = (e) => {
+    if (e.target.value.length > 8) {
+      e.target.value = e.target.value.slice(0, 8);
+    }
+  };
+
   return (
-    <div className="flex flex-col border border-neutral-800 h-screen w-[440px] bg-[#121216]">
+    <div className="flex flex-col border border-neutral-800 min-h-screen max-h-full w-[440px] bg-[#121216]">
       <div className="flex items-center m-4 gap-x-4">
         <GiSettingsKnobs className="size-5 rotate-90 stroke-2 stroke-gray-400" />
         <h3 className="text-xl font-semibold">Filters</h3>
@@ -45,71 +179,72 @@ const Transactionsbar = () => {
         </div>
 
         <div>
-          <span className="text-white/60 text-sm mb-0.5 flex">Category</span>
+          <label className="text-white/60 text-sm mb-0.5 flex">Category</label>
+
           <Select
             isMulti
-            defaultValue={[options[3], options[4]]}
             name="categories"
-            className="basic-multi-select"
-            classNamePrefix="select"
+            value={selectedOptions}
+            options={categoryOptions}
+            onChange={setSelectedOptions}
             components={animatedComponents}
-            options={options}
-            styles={{
-              control: (base, state) => ({
-                ...base,
-                backgroundColor: "#1f1f23", // matches a dark panel
-                borderColor: state.isFocused ? "#6366f1" : "#3f3f46", // indigo-500 or zinc-700
-                boxShadow: state.isFocused ? "0 0 0 1px #6366f1" : "none",
-                "&:hover": {
-                  borderColor: "#6366f1",
-                },
-                color: "#fff",
-              }),
-              menu: (base) => ({
-                ...base,
-                backgroundColor: "#1f1f23", // dropdown panel
-                color: "#fff",
-              }),
-              option: (base, state) => ({
-                ...base,
-                backgroundColor: state.isFocused
-                  ? "#27272a" // zinc-800
-                  : state.isSelected
-                  ? "#4f46e5" // indigo-600
-                  : "#1f1f23",
-                color: state.isSelected ? "white" : "#d4d4d8", // zinc-300
-                cursor: "pointer",
-              }),
-              multiValue: (base) => ({
-                ...base,
-                backgroundColor: "#374151", // gray-700
-              }),
-              multiValueLabel: (base) => ({
-                ...base,
-                color: "white",
-              }),
-              multiValueRemove: (base) => ({
-                ...base,
-                color: "#f87171", // red-400
-                ":hover": {
-                  backgroundColor: "#b91c1c", // red-700
-                  color: "white",
-                },
-              }),
-              input: (base) => ({
-                ...base,
-                color: "white",
-              }),
-              placeholder: (base) => ({
-                ...base,
-                color: "#9ca3af", // gray-400
-              }),
-              singleValue: (base) => ({
-                ...base,
-                color: "white",
-              }),
-            }}
+            className="category-multi-select"
+            classNamePrefix="category-select"
+            placeholder="Select categories..."
+            styles={style}
           />
+
+          {/* <Select
+  isMulti
+  value={selectedOptions}
+  onChange={setSelectedOptions}
+  name="categories"
+  className="category-multi-select"
+  classNamePrefix="category-select"
+  components={{
+    ...animatedComponents,
+    MultiValue: ({ data, removeProps }) => (
+      <Badge
+        variant="outline"
+        className="bg-zinc-800 text-zinc-100 border-zinc-700 mr-1.5 mb-1 flex items-center gap-1 pl-2.5 pr-1 py-1 hover:bg-zinc-700 transition-colors"
+      >
+        {data.label}
+        <button
+          {...removeProps}
+          className="ml-1 rounded-full p-0.5 hover:bg-zinc-600 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+        >
+          <X
+            size={14}
+            className="cursor-pointer text-zinc-400 hover:text-zinc-100"
+          />
+        </button>
+      </Badge>
+    ),
+    DropdownIndicator: (props) => (
+      <ChevronDown
+        size={16}
+        className={`text-zinc-400 transition-transform duration-200 mr-2 ${
+          props.selectProps.menuIsOpen ? "rotate-180" : ""
+        }`}
+      />
+    ),
+    ClearIndicator: (props) => (
+      <button
+        {...props.innerProps}
+        className="mr-2 rounded-full p-1 hover:bg-zinc-700 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+      >
+        <X
+          size={14}
+          onClick={() => setSelectedOptions([])}
+          className="text-zinc-400 cursor-pointer hover:text-zinc-100"
+        />
+      </button>
+    ),
+  }}
+  options={categoryOptions}
+  placeholder="Select categories..."
+  styles={style}
+/> */}
         </div>
 
         <div>
@@ -146,12 +281,9 @@ const Transactionsbar = () => {
 
                   <input
                     type="number"
+                    defaultValue="2"
+                    onInput={(e) => handleLimitation(e)}
                     className="outline-none w-full font-semibold"
-                    onInput={(e) => {
-                      if (e.target.value.length > 8) {
-                        e.target.value = e.target.value.slice(0, 8);
-                      }
-                    }}
                   />
                 </div>
               </div>
@@ -167,12 +299,9 @@ const Transactionsbar = () => {
 
                   <input
                     type="number"
+                    defaultValue="6000"
+                    onInput={(e) => handleLimitation(e)}
                     className="outline-none w-full font-semibold"
-                    onInput={(e) => {
-                      if (e.target.value.length > 8) {
-                        e.target.value = e.target.value.slice(0, 8);
-                      }
-                    }}
                   />
                 </div>
               </div>

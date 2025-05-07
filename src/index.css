@@ -135,3 +135,26 @@
     @apply bg-background text-foreground;
   }
 }
+
+.category-select__menu-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.category-select__menu-list::-webkit-scrollbar-track {
+  background: #27272a;
+  border-radius: 3px;
+}
+
+.category-select__menu-list::-webkit-scrollbar-thumb {
+  background-color: #4f46e5;
+  border-radius: 3px;
+}
+
+/* Add subtle animations */
+.category-select__option {
+  transition: transform 0.1s ease;
+}
+
+.category-select__option:hover {
+  transform: translateX(2px);
+}
