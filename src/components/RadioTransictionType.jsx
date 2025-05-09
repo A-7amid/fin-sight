@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { cn } from "../utils/clsx";
 import { useSelectedType } from "../contexts/AddTransaction.context";
 
-const RadioItem = ({ label, color }) => {
+const RadioTransictionType = ({ label, color }) => {
   const { selectedType, setSelectedType } = useSelectedType();
 
   return (
@@ -33,4 +33,4 @@ const RadioItem = ({ label, color }) => {
   );
 };
 
-export default RadioItem;
+export default RadioTransictionType;

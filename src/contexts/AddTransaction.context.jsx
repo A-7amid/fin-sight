@@ -22,10 +22,16 @@ export const useShowForm = () => {
 
 export const SelectedTypeProvider = ({ children }) => {
   const [selectedType, setSelectedType] = useState("expense");
+  const [selectedPayment, setSelectedPayment] = useState("cash");
 
   const values = useMemo(
-    () => ({ selectedType, setSelectedType }),
-    [selectedType]
+    () => ({
+      selectedType,
+      setSelectedType,
+      selectedPayment,
+      setSelectedPayment,
+    }),
+    [selectedType, selectedPayment]
   );
 
   return (
