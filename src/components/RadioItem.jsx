@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { cn } from "../utils/clsx";
-import { SelectedType } from "./AddTransactionForm";
+import { useSelectedType } from "../contexts/AddTransaction.context";
 
 const RadioItem = ({ label, color }) => {
-  const { selectedType, setSelectedType } = useContext(SelectedType);
+  const { selectedType, setSelectedType } = useSelectedType();
 
   return (
     <label

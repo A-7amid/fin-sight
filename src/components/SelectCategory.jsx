@@ -1,0 +1,63 @@
+import React from "react";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const categories = [
+  { value: "food", label: "Food" },
+  { value: "transportation", label: "Transportation" },
+  { value: "mortgage_rent", label: "Mortgage / Rent" },
+  { value: "salary", label: "Salary" },
+  { value: "shopping", label: "Shopping" },
+  { value: "housing", label: "Housing" },
+  { value: "utilities", label: "Utilities" },
+  { value: "bills", label: "Bills" },
+  { value: "personal_care", label: "Personal Care" },
+  { value: "extra_income", label: "Extra income" },
+  { value: "clothing", label: "Clothing" },
+  { value: "insurance", label: "Insurance" },
+  { value: "business", label: "Business" },
+  { value: "interests", label: "Interests" },
+  { value: "health_care", label: "Health Care" },
+  { value: "miscellaneous", label: "Miscellaneous" },
+  { value: "tax", label: "Tax" },
+  { value: "education", label: "Education" },
+];
+
+const SelectCategory = ({ id }) => {
+  return (
+    <Select>
+      <SelectTrigger
+        id={id}
+        className="flex items-center w-full bg-white/5 hover:bg-white/10 border-neutral-700 hover:border-neutral-600 cursor-pointer"
+      >
+        <SelectValue placeholder="Select category" />
+      </SelectTrigger>
+      <SelectContent className="bg-neutral-900 border-neutral-600 cursor-pointer text-white">
+        <SelectGroup>
+          <SelectLabel className="border-b border-neutral-700">
+            Categories
+          </SelectLabel>
+          {categories.map((category) => (
+            <SelectItem
+              // Problem
+              className="hover:bg-white/40 cursor-pointer"
+              value={category.value}
+            >
+              {category.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+};
+
+export default SelectCategory;

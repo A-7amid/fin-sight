@@ -10,11 +10,12 @@ import { cn } from "../utils/clsx";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 
-const DatePicker = () => {
+const DatePicker = ({ id }) => {
   const [date, setDate] = useState();
   return (
     <Popover>
       <PopoverTrigger
+        id={id}
         className="flex items-center border bg-white/5 hover:bg-white/10 border-neutral-700 hover:border-neutral-600 cursor-pointer"
         asChild
       >
@@ -34,7 +35,7 @@ const DatePicker = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-full p-0 bg-white/5 text-white border-neutral-700"
+        className="w-full p-0 bg-neutral-900 text-white border-neutral-700"
         align="start"
       >
         <Calendar

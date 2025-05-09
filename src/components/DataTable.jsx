@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -31,6 +31,7 @@ import {
 import { cn } from "../utils/clsx";
 import { IoMdAdd } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
+import { useShowForm } from "../contexts/AddTransaction.context";
 
 const data = [
   {
@@ -287,6 +288,8 @@ export const columns = [
 ];
 
 export function DataTable() {
+  const { showForm, setShowForm } = useShowForm();
+
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -325,7 +328,7 @@ export function DataTable() {
     <div className="w-full px-5">
       <div className="flex items-center mb-3 gap-x-4 w-full h-fit">
         <div className="w-[80%] p-1.5 flex items-center border-neutral-800 border rounded-sm focus-within:border-blue-500 transition duration-75 justify-between">
-          <div className="flex items-center px-1 gap-x-2.5">
+          <div className="flex items-center pl-1 gap-x-2.5 w-full">
             <CiSearch />
             <input
               type="text"
@@ -335,7 +338,7 @@ export function DataTable() {
               onChange={(e) => {
                 handleSearch(e);
               }}
-              className="outline-none flex grow focus-within:border-blue-500"
+              className="outline-none flex grow focus-within:border-blue-500 w-full"
             />
           </div>
           {isDeleteShown && (
@@ -348,7 +351,10 @@ export function DataTable() {
             />
           )}
         </div>
-        <button className="px-2 py-1.5 gap-x-3 grow flex items-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer uppercase font-medium text-sm rounded-sm">
+        <button
+          onClick={() => setShowForm(true)}
+          className="px-2 py-1.5 gap-x-3 grow flex items-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer uppercase font-medium text-sm rounded-sm"
+        >
           <IoMdAdd className="size-5 stroke-3" />
           <span>add transaction</span>
         </button>
