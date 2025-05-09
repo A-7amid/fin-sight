@@ -8,8 +8,9 @@ import { cn } from "../utils/clsx";
 function Home() {
   return (
     <div
-      style={{ "--background": "240 10% 4%" }}
-      className={cn("flex min-h-screen max-h-full text-neutral-50 font-inter")}
+      className={cn(
+        "flex min-h-screen max-h-full bg-neutral-950 text-neutral-50 font-inter"
+      )}
     >
       <Sidebar />
 

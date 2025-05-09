@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "../utils/clsx";
 import { useSelectedType } from "../contexts/AddTransaction.context";
 
-const RadioPaymentMode = ({ label, color }) => {
+const RadioPaymentMode = ({ label }) => {
   const { selectedPayment, setSelectedPayment } = useSelectedType();
 
   return (
@@ -16,10 +16,7 @@ const RadioPaymentMode = ({ label, color }) => {
         )}
       >
         {selectedPayment === label.toLowerCase() && (
-          <span
-            style={{ backgroundColor: color }}
-            className={cn("size-2 rounded-full")}
-          ></span>
+          <span className={cn("size-2 rounded-full bg-[#0ea5e9]")}></span>
         )}
       </div>
       <span className={cn("font-medium text-sm")}>{label}</span>

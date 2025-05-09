@@ -46,7 +46,7 @@ import { DataTable } from "./DataTable";
 
 const Transactions = () => {
   return (
-    <div className="flex flex-col py-5 w-full relative">
+    <div className="flex flex-col mx-auto container py-5 w-full relative">
       <div className="bg-[#121216] flex flex-col py-4 gap-y-4 rounded-lg mt-4 h-full w-full border border-neutral-800">
         <h2 className="font-semibold text-xl px-5">All Transactions</h2>
 

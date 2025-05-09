@@ -325,7 +325,7 @@ export function DataTable() {
   };
 
   return (
-    <div className="w-full px-5">
+    <div className="px-5">
       <div className="flex items-center mb-3 gap-x-4 w-full h-fit">
         <div className="w-[80%] p-1.5 flex items-center border-neutral-800 border rounded-sm focus-within:border-blue-500 transition duration-75 justify-between">
           <div className="flex items-center pl-1 gap-x-2.5 w-full">

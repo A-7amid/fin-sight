@@ -31,14 +31,10 @@ const AddTransactionForm = () => {
             data-aos="zoom-in-down"
             className="bg-[#121216] text-white/70 flex flex-col py-4 border border-neutral-800 rounded-sm w-[27%]"
           >
-            <div className="flex justify-between items-center px-5">
+            <div className="flex items-center px-5">
               <h3 className="font-bold text-xl text-white/85">
                 New <span className="text-[#0ea5e9]">Transaction</span>
               </h3>
-              <X
-                onClick={() => setShowForm(false)}
-                className="size-6 cursor-pointer stroke-zinc-400 hover:stroke-zinc-100 hover:bg-neutral-800 rounded-sm p-1 transition duration-200"
-              />
             </div>
 
             <div className="h-px bg-neutral-800 w-full my-3 mt-5"></div>
@@ -109,14 +105,17 @@ const AddTransactionForm = () => {
               <div className="flex flex-col gap-y-2">
                 <span>Payment Mode</span>
                 <div className="flex items-center gap-x-6">
-                  <RadioPaymentMode label="Cash" color="#0ea5e9" />
-                  <RadioPaymentMode label="Debit Card" color="#0ea5e9" />
-                  <RadioPaymentMode label="Credit Card" color="#0ea5e9" />
+                  <RadioPaymentMode label="Cash" />
+                  <RadioPaymentMode label="Debit Card" />
+                  <RadioPaymentMode label="Credit Card" />
                 </div>
               </div>
 
               <div className="flex justify-end w-full gap-x-2">
-                <button className="bg-white/10 text-neutral-400 hover:bg-white/10 border-neutral-700 hover:text-white border transition duration-200 text-xs font-bold p-2.5 px-4 uppercase rounded-sm cursor-pointer">
+                <button
+                  onClick={() => setShowForm(false)}
+                  className="bg-white/10 text-neutral-400 hover:bg-white/10 border-neutral-700 hover:text-white border transition duration-200 text-xs font-bold p-2.5 px-4 uppercase rounded-sm cursor-pointer"
+                >
                   Cancel
                 </button>
                 <button className=" bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 transition duration-200 text-white p-2.5 px-4 text-xs font-bold uppercase rounded-sm cursor-pointer">
