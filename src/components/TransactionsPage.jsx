@@ -3,6 +3,7 @@ import { cn } from "../utils/clsx";
 import Sidebar from "./Sidebar";
 import Transactions from "./Transactions";
 import Transactionsbar from "./Transactionsbar";
+import AddTransactionForm from "./AddTransactionForm";
 
 const TransactionsPage = () => {
   return (
@@ -19,6 +20,8 @@ const TransactionsPage = () => {
       </div>
 
       <Transactionsbar />
+
+      <AddTransactionForm />
     </div>
   );
 };

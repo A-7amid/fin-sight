@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -7,7 +7,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, ChevronDown, MoreHorizontal, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -20,7 +20,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -30,6 +29,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "../utils/clsx";
+import { IoMdAdd } from "react-icons/io";
+import { CiSearch } from "react-icons/ci";
 
 const data = [
   {
@@ -285,13 +286,14 @@ export const columns = [
   },
 ];
 
-const hh = "white";
-
 export function DataTable() {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [isDeleteShown, setIsDeleteShown] = useState(false);
+
+  const searchRef = useRef(null);
 
   const table = useReactTable({
     data,
@@ -312,50 +314,46 @@ export function DataTable() {
     },
   });
 
+  const handleSearch = (e) => {
+    table.getColumn("category")?.setFilterValue(e.target.value);
+    e.target.value.length !== 0
+      ? setIsDeleteShown(true)
+      : setIsDeleteShown(false);
+  };
+
   return (
-    <div className="w-full">
-      <div className="flex items-center">
-        <Input
-          placeholder="Search..."
-          value={table.getColumn("category")?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn("category")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm border border-neutral-800"
-        />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              className="ml-auto border border-neutral-800 py-4"
-            >
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="bg-[#121216] text-zinc-100 border border-neutral-800"
-            align="end"
-          >
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <div className="w-full px-5">
+      <div className="flex items-center mb-3 gap-x-4 w-full h-fit">
+        <div className="w-[80%] p-1.5 flex items-center border-neutral-800 border rounded-sm focus-within:border-blue-500 transition duration-75 justify-between">
+          <div className="flex items-center px-1 gap-x-2.5">
+            <CiSearch />
+            <input
+              type="text"
+              ref={searchRef}
+              placeholder="Search..."
+              value={table.getColumn("category")?.getFilterValue() ?? ""}
+              onChange={(e) => {
+                handleSearch(e);
+              }}
+              className="outline-none flex grow focus-within:border-blue-500"
+            />
+          </div>
+          {isDeleteShown && (
+            <X
+              className="size-4 cursor-pointer stroke-zinc-400 hover:stroke-zinc-100 transition duration-100"
+              onClick={() => {
+                searchRef.current.value = "";
+                handleSearch({ target: { value: "" } });
+              }}
+            />
+          )}
+        </div>
+        <button className="px-2 py-1.5 gap-x-3 grow flex items-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer uppercase font-medium text-sm rounded-sm">
+          <IoMdAdd className="size-5 stroke-3" />
+          <span>add transaction</span>
+        </button>
       </div>
+
       <div className="rounded-md border border-neutral-800">
         <Table>
           <TableHeader>
@@ -415,7 +413,7 @@ export function DataTable() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredSelectedRowModel().rows.length} of
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="space-x-2">

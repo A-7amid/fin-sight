@@ -14,7 +14,7 @@ const recentTransactions = [
     id: 1,
     date: "Nov 30, 2017",
     category: "Food",
-    categoryColor: "red-400",
+    categoryColor: "#EF4444",
     paymentMode: "Debit Card",
     description: "Lunch at a restaurant",
     amount: "$ 200",
@@ -23,7 +23,7 @@ const recentTransactions = [
     id: 2,
     date: "Dec 01, 2017",
     category: "Transport",
-    categoryColor: "blue-400",
+    categoryColor: "#34D399",
     paymentMode: "Cash",
     description: "Taxi fare",
     amount: "$ 50",
@@ -32,7 +32,7 @@ const recentTransactions = [
     id: 3,
     date: "Dec 02, 2017",
     category: "Shopping",
-    categoryColor: "purple-400",
+    categoryColor: "#C4B5FD", // red-400 in hex
     paymentMode: "Credit Card",
     description: "Clothes shopping",
     amount: "$ 300",
@@ -87,9 +87,13 @@ const RecentTransactions = () => {
               <div className="py-1"></div>
 
               <TableCell
+                style={{
+                  backgroundColor: `${transaction.categoryColor}20`,
+                  border: `1px solid ${transaction.categoryColor}50`,
+                  color: transaction.categoryColor,
+                }}
                 className={cn(
-                  `rounded-full text-${transaction.categoryColor} translate-x-3 bg-${transaction.categoryColor}/10 border-[1px] border-${transaction.categoryColor}
-                   hover:bg-${transaction.categoryColor}/5 transition duration-200 w-fit flex text-xs py-0.5 px-2.5 font-medium items-center`
+                  "rounded-full recent-transactions-cell translate-x-3 transition duration-200 w-fit flex text-xs py-0.5 px-2.5 font-medium items-center"
                 )}
               >
                 {transaction.category}
