@@ -1,4 +1,5 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
 import {
   flexRender,
   getCoreRowModel,
@@ -36,12 +37,12 @@ import { useShowForm } from "../contexts/AddTransaction.context";
 const data = [
   {
     id: "1",
+    amount: 316,
     category: "Food",
     date: "2023-10-01",
     paymentMode: "Credit Card",
     description: "Weekly grocery shopping",
-    amount: 316,
-    categoryColor: "#FF5733", // Orange-Red for Food
+    transactionType: "income",
   },
   {
     id: "2",
@@ -51,6 +52,7 @@ const data = [
     description: "Electricity bill payment",
     amount: 242,
     categoryColor: "#3498DB", // Blue for Utilities
+    transactionType: "expense",
   },
   {
     id: "3",
@@ -60,6 +62,7 @@ const data = [
     description: "Movie tickets",
     amount: 837,
     categoryColor: "#9B59B6", // Purple for Entertainment
+    transactionType: "expense",
   },
   {
     id: "4",
@@ -69,6 +72,7 @@ const data = [
     description: "Dinner at a restaurant",
     amount: 874,
     categoryColor: "#E67E22", // Orange for Dining
+    transactionType: "expense",
   },
   {
     id: "5",
@@ -78,6 +82,7 @@ const data = [
     description: "Taxi fare",
     amount: 721,
     categoryColor: "#1ABC9C", // Teal for Transportation
+    transactionType: "income",
   },
   {
     id: "6",
@@ -87,6 +92,7 @@ const data = [
     description: "Clothing purchase",
     amount: 450,
     categoryColor: "#F39C12", // Yellow-Orange for Shopping
+    transactionType: "expense",
   },
   {
     id: "7",
@@ -96,6 +102,7 @@ const data = [
     description: "Monthly rent payment",
     amount: 1200,
     categoryColor: "#2ECC71", // Green for Housing
+    transactionType: "income",
   },
   {
     id: "8",
@@ -105,6 +112,7 @@ const data = [
     description: "Internet bill",
     amount: 100,
     categoryColor: "#E74C3C", // Red for Bills
+    transactionType: "expense",
   },
   {
     id: "9",
@@ -114,6 +122,7 @@ const data = [
     description: "Freelance project payment",
     amount: 500,
     categoryColor: "#8E44AD", // Purple for Extra income
+    transactionType: "income",
   },
   {
     id: "10",
@@ -123,6 +132,7 @@ const data = [
     description: "Haircut",
     amount: 50,
     categoryColor: "#FFC300", // Bright Yellow for Personal Care
+    transactionType: "expense",
   },
   {
     id: "11",
@@ -132,6 +142,7 @@ const data = [
     description: "Hobby supplies",
     amount: 200,
     categoryColor: "#2980B9", // Deep Blue for Interests
+    transactionType: "income",
   },
   {
     id: "12",
@@ -141,6 +152,7 @@ const data = [
     description: "Random expenses",
     amount: 75,
     categoryColor: "#95A5A6", // Gray for Miscellaneous
+    transactionType: "expense",
   },
   {
     id: "13",
@@ -150,6 +162,7 @@ const data = [
     description: "Doctor's appointment",
     amount: 150,
     categoryColor: "#C0392B", // Dark Red for Health Care
+    transactionType: "income",
   },
   {
     id: "14",
@@ -159,6 +172,7 @@ const data = [
     description: "Car insurance premium",
     amount: 300,
     categoryColor: "#34495E", // Dark Blue-Gray for Insurance
+    transactionType: "expense",
   },
   {
     id: "15",
@@ -168,6 +182,7 @@ const data = [
     description: "Monthly salary",
     amount: 3000,
     categoryColor: "#27AE60", // Green for Salary
+    transactionType: "income",
   },
   {
     id: "16",
@@ -177,6 +192,7 @@ const data = [
     description: "Quarterly tax payment",
     amount: 500,
     categoryColor: "#D35400", // Burnt Orange for Tax
+    transactionType: "expense",
   },
   {
     id: "17",
@@ -186,6 +202,7 @@ const data = [
     description: "Online course fee",
     amount: 200,
     categoryColor: "#5DADE2", // Light Blue for Education
+    transactionType: "income",
   },
   {
     id: "18",
@@ -195,6 +212,7 @@ const data = [
     description: "Monthly mortgage payment",
     amount: 1500,
     categoryColor: "#1F618D", // Navy Blue for Mortgage / Rent
+    transactionType: "expense",
   },
 ];
 
@@ -232,6 +250,7 @@ export const columns = [
       return (
         <Button
           variant="ghost"
+          className="hover:bg-white/10 hover:text-white/80 cursor-pointer"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Category
@@ -239,21 +258,28 @@ export const columns = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className={cn(``)}>{row.getValue("category")}</div>,
+    cell: ({ row }) => <div>{row.getValue("category")}</div>,
   },
   {
-    accessorKey: "paymentMode",
-    header: () => <div className="text-right">Payment Mode</div>,
+    accessorKey: "amount",
+    header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("paymentMode"));
+      const amount = parseFloat(row.getValue("amount"));
 
-      // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
       }).format(amount);
 
-      return <div className="text-right font-medium">{formatted}</div>;
+      return (
+        <div
+          className={cn("text-right font-medium text-red-500", {
+            "text-green-500": row.original.transactionType == "income",
+          })}
+        >
+          {formatted}
+        </div>
+      );
     },
   },
   {
@@ -288,7 +314,7 @@ export const columns = [
 ];
 
 export function DataTable() {
-  const { showForm, setShowForm } = useShowForm();
+  const { setShowForm } = useShowForm();
 
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
@@ -327,7 +353,7 @@ export function DataTable() {
   return (
     <div className="px-5">
       <div className="flex items-center mb-3 gap-x-4 w-full h-fit">
-        <div className="w-[80%] p-1.5 flex items-center border-neutral-800 border rounded-sm focus-within:border-blue-500 transition duration-75 justify-between">
+        <div className="w-[80%] bg-[#121216] p-1.5 flex items-center border-neutral-800 border rounded-sm focus-within:border-blue-500 transition duration-75 justify-between">
           <div className="flex items-center pl-1 gap-x-2.5 w-full">
             <CiSearch />
             <input
@@ -362,12 +388,12 @@ export function DataTable() {
 
       <div className="rounded-md border border-neutral-800">
         <Table>
-          <TableHeader>
+          <TableHeader className="border-b border-neutral-800 bg-[#1a1a1f]">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead className="py-0.5" key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -380,7 +406,7 @@ export function DataTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="bg-[#121216]">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -416,29 +442,30 @@ export function DataTable() {
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+
+        <div className="flex items-center w-full justify-between space-x-2 py-3 bg-[#1a1a1f] border-t border-neutral-800 px-3.5">
+          <div className="text-sm text-muted-foreground">
+            {table.getFilteredSelectedRowModel().rows.length} of
+            {table.getFilteredRowModel().rows.length} row(s) selected.
+          </div>
+          <div className="space-x-2.5 flex">
+            <button
+              className="cursor-pointer border border-neutral-700 bg-[#121216] rounded-sm px-3 py-1 text-sm font-semibold flex gap-x-3 items-center"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <MdArrowBackIos className="text-xs" />
+              <span>Previous</span>
+            </button>
+            <button
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+              className="cursor-pointer border border-neutral-700 bg-[#121216] rounded-sm px-3 py-1 text-sm font-semibold flex gap-x-3 items-center"
+            >
+              <span>Next</span>
+              <MdArrowForwardIos className="text-xs" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
