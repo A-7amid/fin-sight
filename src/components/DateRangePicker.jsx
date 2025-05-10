@@ -21,7 +21,7 @@ export function DateRangePicker({ className }) {
     <div className={cn("grid gap-2 items-center", className)}>
       <Popover>
         <PopoverTrigger
-          className="flex items-center border hover:bg-neutral-800 hover:text-white border-neutral-800"
+          className="flex items-center border bg-neutral-900 hover:bg-neutral-800 hover:text-white border-neutral-800"
           asChild
         >
           <Button

@@ -12,7 +12,7 @@ const MainCheckbox = ({ className, title }) => {
     >
       <div
         className={cn(
-          "border-blue-300 border-2 p-[1px] size-[18px] duration-100 transition rounded-sm cursor-pointer flex items-center justify-center",
+          "border-blue-300 text-[#121216] border-2 p-[1px] size-[18px] duration-100 transition rounded-sm cursor-pointer flex items-center justify-center",
           className,
           {
             "bg-blue-300": isChecked,
