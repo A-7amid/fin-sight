@@ -400,7 +400,7 @@ export function DataTable() {
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="px-2 py-1.5 gap-x-3 grow flex items-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer uppercase font-medium text-sm rounded-sm"
+          className="px-2 py-1.5 gap-x-3 grow flex items-center justify-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer uppercase font-medium text-sm rounded-sm"
         >
           <IoMdAdd className="size-5 stroke-3" />
           <span>add transaction</span>
