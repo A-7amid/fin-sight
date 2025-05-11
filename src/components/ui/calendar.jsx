@@ -1,11 +1,14 @@
 import * as React from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { DayPicker } from "react-day-picker";
+import classNames from "react-day-picker/style.module.css";
+
+console.log(classNames);
 
 import { cn } from "../../utils/clsx";
 import { buttonVariants } from "@/components/ui/button";
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
+function Calendar({ className, showOutsideDays = true, ...props }) {
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
