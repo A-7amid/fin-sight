@@ -59,6 +59,14 @@ const recentTransactions = [
   // },
 ];
 
+const transactionsHeads = [
+  "Date",
+  "Category",
+  "Payment Mode",
+  "Description",
+  "Amount",
+];
+
 const RecentTransactions = () => {
   return (
     <div className="rounded-lg flex flex-col border border-neutral-800 pt-5 mb-3 bg-[#121216] w-full">
@@ -69,17 +77,20 @@ const RecentTransactions = () => {
       <Table>
         <TableHeader className="gap-5">
           <TableRow>
-            <TableHead>Date</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Payment Mode</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead className="text-end">Amount</TableHead>
+            {transactionsHeads.map((head, i) => (
+              <TableHead
+                className={cn({ "text-end": head.toLowerCase() === "amount" })}
+                key={i}
+              >
+                {head}
+              </TableHead>
+            ))}
           </TableRow>
         </TableHeader>
 
         <TableBody>
           {recentTransactions.map((transaction) => (
-            <TableRow className="" key={transaction.id}>
+            <TableRow className="hover:bg-[#24242a]" key={transaction.id}>
               <TableCell className="font-light text-neutral-400">
                 {transaction.date}
               </TableCell>

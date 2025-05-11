@@ -54,7 +54,7 @@ const AddTransactionForm = () => {
 
                 <div className="flex flex-col gap-y-2">
                   <label htmlFor="time" className="transaction-labels">
-                    Choose a Date
+                    Choose a Time
                   </label>
                   <input
                     className="flex items-center border bg-white/5 hover:bg-white/10 border-neutral-700 hover:border-neutral-600 cursor-pointer rounded-sm p-1"

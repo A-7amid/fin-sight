@@ -8,7 +8,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal, X } from "lucide-react";
+import {
+  ArrowUpDown,
+  Camera,
+  ChevronDown,
+  MoreHorizontal,
+  Soup,
+  X,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -239,26 +246,39 @@ export const columns = [
     enableSorting: false,
     enableHiding: false,
   },
+
+  {
+    accessorKey: "category",
+    header: ({ column }) => {
+      return (
+        <span
+        // onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category
+          {/* <ArrowUpDown /> */}
+        </span>
+      );
+    },
+    cell: ({ row }) => <div>{row.getValue("category")}</div>,
+  },
   {
     accessorKey: "date",
     header: "Date",
     cell: ({ row }) => <div className="capitalize">{row.getValue("date")}</div>,
   },
   {
-    accessorKey: "category",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          className="hover:bg-white/10 hover:text-white/80 cursor-pointer"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Category
-          <ArrowUpDown />
-        </Button>
-      );
+    accessorKey: "paymentMode",
+    header: "Payment Mode",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("paymentMode")}</div>
+    ),
+  },
+  {
+    accessorKey: "description",
+    header: "Description",
+    cell: ({ row }) => {
+      return <div>{row.getValue("description")}</div>;
     },
-    cell: ({ row }) => <div>{row.getValue("category")}</div>,
   },
   {
     accessorKey: "amount",
@@ -274,7 +294,7 @@ export const columns = [
       return (
         <div
           className={cn("text-right font-medium text-red-500", {
-            "text-green-500": row.original.transactionType == "income",
+            "text-green-500": row.original.transactionType === "income",
           })}
         >
           {formatted}
@@ -285,27 +305,28 @@ export const columns = [
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
-      const transiction = row.original;
-
+    cell: () => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button
+              variant="ghost"
+              className="h-8 w-8 p-0 cursor-pointer text-white/50 hover:text-white hover:bg-[#3a3a43a9]"
+            >
               <span className="sr-only">Open menu</span>
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(transiction.id)}
-            >
-              Copy transiction ID
+          <DropdownMenuContent
+            className="bg-[#1a1a1f] border-neutral-800"
+            align="end"
+          >
+            <DropdownMenuItem className="text-white focus:text-white focus:bg-[#3a3a43a9]">
+              Edit
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View transiction details</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-500 focus:text-red-500 focus:bg-[#3a3a43a9]">
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -351,8 +372,8 @@ export function DataTable() {
   };
 
   return (
-    <div className="px-5">
-      <div className="flex items-center mb-3 gap-x-4 w-full h-fit">
+    <div className="px-5 min:h-full">
+      <div className="flex items-center mb-3 gap-x-4 w-full">
         <div className="w-[80%] bg-[#121216] p-1.5 flex items-center border-neutral-800 border rounded-sm focus-within:border-blue-500 transition duration-75 justify-between">
           <div className="flex items-center pl-1 gap-x-2.5 w-full">
             <CiSearch />
@@ -369,7 +390,7 @@ export function DataTable() {
           </div>
           {isDeleteShown && (
             <X
-              className="size-4 cursor-pointer stroke-zinc-400 hover:stroke-zinc-100 transition duration-100"
+              className="size-5 cursor-pointer stroke-zinc-400 hover:stroke-zinc-100 transition duration-100"
               onClick={() => {
                 searchRef.current.value = "";
                 handleSearch({ target: { value: "" } });
@@ -412,7 +433,7 @@ export function DataTable() {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="data-[state=selected]:bg-white/10 py-10"
+                  className="data-[state=selected]:bg-white/10 py-10 hover:bg-[#28282fa9]"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -445,26 +466,30 @@ export function DataTable() {
 
         <div className="flex items-center w-full justify-between space-x-2 py-3 bg-[#1a1a1f] border-t border-neutral-800 px-3.5">
           <div className="text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of
+            {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
-          <div className="space-x-2.5 flex">
-            <button
-              className="cursor-pointer border border-neutral-700 bg-[#121216] rounded-sm px-3 py-1 text-sm font-semibold flex gap-x-3 items-center"
+          <div className="space-x-2.5 flex items-center">
+            <Button
+              size="xs"
+              variant="outline"
+              className="cursor-pointer border border-neutral-700 bg-[#121216] rounded-sm px-3 py-1 text-sm flex gap-x-3 items-center"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
-              <MdArrowBackIos className="text-xs" />
+              <MdArrowBackIos className="size-3" />
               <span>Previous</span>
-            </button>
-            <button
+            </Button>
+            <Button
+              size="xs"
+              variant="outline"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="cursor-pointer border border-neutral-700 bg-[#121216] rounded-sm px-3 py-1 text-sm font-semibold flex gap-x-3 items-center"
+              className="cursor-pointer border border-neutral-700 bg-[#121216] hover:bg-[#2c2c33] rounded-sm px-3 py-1 text-sm flex gap-x-3 items-center"
             >
               <span>Next</span>
-              <MdArrowForwardIos className="text-xs" />
-            </button>
+              <MdArrowForwardIos className="size-3" />
+            </Button>
           </div>
         </div>
       </div>

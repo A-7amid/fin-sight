@@ -255,14 +255,14 @@ const Transactionsbar = () => {
                   <input
                     type="number"
                     defaultValue="2"
-                    onInput={(e) => handleLimitation(e)}
+                    onInput={(e) => {
+                      handleLimitation(e);
+                    }}
                     className="outline-none w-full font-semibold"
                   />
                 </div>
               </div>
             </div>
-
-            {/* <div className="h-px bg-blue-400 w-2.5"></div> */}
 
             <div>
               <span className="text-[#6b6b70] text-xs">Max Amount</span>

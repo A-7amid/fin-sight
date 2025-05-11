@@ -28,7 +28,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.9.4",
-    "lucide-react": "^0.503.0",
+    "lucide-react": "^0.509.0",
     "react": "19.1.0",
     "react-chartjs-2": "^5.3.0",
     "react-date-range": "^2.0.1",
