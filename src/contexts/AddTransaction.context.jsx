@@ -1,54 +1,65 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+import { dummyTransactions } from "../transactions";
 
-const SelectedTypeContext = createContext();
+const AddTransactionContext = createContext();
 
-const ShowFormContext = createContext();
-
-export const useSelectedType = () => {
-  const context = useContext(SelectedTypeContext);
+export const useAddTransaction = () => {
+  const context = useContext(AddTransactionContext);
   if (!context)
     throw new Error(
-      "useSelectedType must be used within a SelectedTypeProvider"
+      "useAddTransaction must be used within a AddTransactionProvider"
     );
   return context;
 };
 
-export const useShowForm = () => {
-  const context = useContext(ShowFormContext);
-  if (!context)
-    throw new Error("useShowForm must be used within a ShowFormProvider");
-  return context;
-};
-
-export const SelectedTypeProvider = ({ children }) => {
+export const AddTransactionProvider = ({ children }) => {
+  const [transactions, setTransactions] = useState(dummyTransactions);
+  const [showForm, setShowForm] = useState(false);
   const [selectedType, setSelectedType] = useState("expense");
   const [selectedPayment, setSelectedPayment] = useState("cash");
 
+  const handleAddTransaction = useCallback((newTransaction) => {
+    setTransactions((prev) => [
+      {
+        ...newTransaction,
+        category: newTransaction.category.replace("_", " "),
+        selectedType: selectedType,
+      },
+      ...prev,
+    ]);
+    setShowForm(false);
+  }, []);
+
   const values = useMemo(
     () => ({
+      transactions,
+      setTransactions,
+      showForm,
+      setShowForm,
       selectedType,
       setSelectedType,
       selectedPayment,
       setSelectedPayment,
+      handleAddTransaction,
     }),
-    [selectedType, selectedPayment]
+    [
+      transactions,
+      showForm,
+      selectedType,
+      selectedPayment,
+      handleAddTransaction,
+    ]
   );
 
   return (
-    <SelectedTypeContext.Provider value={values}>
+    <AddTransactionContext.Provider value={values}>
       {children}
-    </SelectedTypeContext.Provider>
-  );
-};
-
-export const ShowFormProvider = ({ children }) => {
-  const [showForm, setShowForm] = useState(false);
-
-  const values = useMemo(() => ({ showForm, setShowForm }), [showForm]);
-
-  return (
-    <ShowFormContext.Provider value={values}>
-      {children}
-    </ShowFormContext.Provider>
+    </AddTransactionContext.Provider>
   );
 };

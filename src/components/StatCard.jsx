@@ -5,7 +5,7 @@ const StatCard = ({ statName, money, className }) => {
   return (
     <div
       className={cn(
-        "rounded-lg flex flex-col border border-neutral-800 gap-y-2 border-l-4 px-5 py-5 bg-[#121216] w-full h-28",
+        "rounded-lg flex flex-col border border-neutral-800 md:gap-y-2 border-l-4 px-5 md:py-5 py-3 bg-[#121216] w-full md:h-28",
         className
       )}
     >

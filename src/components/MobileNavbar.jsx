@@ -1,0 +1,41 @@
+import { AlignLeft } from "lucide-react";
+import SidebarContent from "./SidebarContent";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
+const MobileNavbar = () => {
+  return (
+    <div className="w-full md:hidden flex justify-start items-center gap-x-2 bg-[#121216] px-3 py-2.5">
+      <Sheet>
+        <SheetTrigger asChild>
+          <button className="cursor-pointer rounded-sm px-3 py-2 text-sm flex items-center">
+            <AlignLeft className="size-4.5 cursor-pointer" />
+          </button>
+        </SheetTrigger>
+        <SheetContent
+          side="left"
+          className="w-52 py-10 bg-[#121216] border-neutral-700 text-white/80"
+        >
+          <SidebarContent />
+        </SheetContent>
+      </Sheet>
+
+      <h3
+        className="bg-gradient-to-r w-fit from-cyan-400 to-indigo-400 font-bold text-lg inline-block items-center justify-center text-transparent
+       bg-clip-text"
+      >
+        FinSight
+      </h3>
+    </div>
+  );
+};
+
+export default MobileNavbar;

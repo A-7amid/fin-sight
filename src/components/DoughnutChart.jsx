@@ -68,7 +68,7 @@ const DoughnutChart = () => {
   return (
     <div className="size-[400px] rounded-lg flex flex-col border border-neutral-800 px-5 py-5 bg-[#121216] w-full">
       <div className="flex flex-col">
-        <h2 className="font-semibold text-xl">Total Expenses</h2>
+        <h2 className="font-semibold md:text-xl text-md">Total Expenses</h2>
         <span className="text-xs text-zinc-400 font-medium">
           May 31 - Nov 30
         </span>

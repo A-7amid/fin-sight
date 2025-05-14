@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Controller } from "react-hook-form";
 
 const categories = [
   { value: "food", label: "Food" },
@@ -31,32 +32,38 @@ const categories = [
   { value: "education", label: "Education" },
 ];
 
-const SelectCategory = ({ id }) => {
+const SelectCategory = ({ id, name, control }) => {
   return (
-    <Select>
-      <SelectTrigger
-        id={id}
-        className="flex items-center w-full bg-white/5 hover:bg-white/10 border-neutral-700 hover:border-neutral-600 cursor-pointer"
-      >
-        <SelectValue placeholder="Select category" />
-      </SelectTrigger>
-      <SelectContent className="bg-neutral-900 border-neutral-600 cursor-pointer text-white">
-        <SelectGroup>
-          <SelectLabel className="border-b border-neutral-700">
-            Categories
-          </SelectLabel>
-          {categories.map((category) => (
-            <SelectItem
-              // Problem
-              className="hover:bg-white/40 cursor-pointer"
-              value={category.value}
-            >
-              {category.label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <Controller
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <Select value={field.value} onValueChange={field.onChange}>
+          <SelectTrigger
+            id={id}
+            className="flex items-center w-full bg-white/5 hover:bg-white/10 border-neutral-700 hover:border-neutral-600 cursor-pointer"
+          >
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
+          <SelectContent className="bg-neutral-900 border-neutral-600 cursor-pointer text-white">
+            <SelectGroup>
+              <SelectLabel className="border-b border-neutral-700">
+                Categories
+              </SelectLabel>
+              {categories.map((category) => (
+                <SelectItem
+                  key={category.value}
+                  className="hover:bg-white/40 cursor-pointer"
+                  value={category.value}
+                >
+                  {category.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      )}
+    ></Controller>
   );
 };
 

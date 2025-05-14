@@ -8,24 +8,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  Camera,
-  ChevronDown,
-  MoreHorizontal,
-  Soup,
-  X,
-} from "lucide-react";
+import { MoreHorizontal, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -39,189 +29,8 @@ import {
 import { cn } from "../utils/clsx";
 import { IoMdAdd } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
-import { useShowForm } from "../contexts/AddTransaction.context";
-
-const data = [
-  {
-    id: "1",
-    amount: 316,
-    category: "Food",
-    date: "2023-10-01",
-    paymentMode: "Credit Card",
-    description: "Weekly grocery shopping",
-    transactionType: "income",
-  },
-  {
-    id: "2",
-    category: "Utilities",
-    date: "2023-10-02",
-    paymentMode: "Bank Transfer",
-    description: "Electricity bill payment",
-    amount: 242,
-    categoryColor: "#3498DB", // Blue for Utilities
-    transactionType: "expense",
-  },
-  {
-    id: "3",
-    category: "Entertainment",
-    date: "2023-10-03",
-    paymentMode: "Debit Card",
-    description: "Movie tickets",
-    amount: 837,
-    categoryColor: "#9B59B6", // Purple for Entertainment
-    transactionType: "expense",
-  },
-  {
-    id: "4",
-    category: "Dining",
-    date: "2023-10-04",
-    paymentMode: "Cash",
-    description: "Dinner at a restaurant",
-    amount: 874,
-    categoryColor: "#E67E22", // Orange for Dining
-    transactionType: "expense",
-  },
-  {
-    id: "5",
-    category: "Transportation",
-    date: "2023-10-05",
-    paymentMode: "Mobile Payment",
-    description: "Taxi fare",
-    amount: 721,
-    categoryColor: "#1ABC9C", // Teal for Transportation
-    transactionType: "income",
-  },
-  {
-    id: "6",
-    category: "Shopping",
-    date: "2023-10-06",
-    paymentMode: "Credit Card",
-    description: "Clothing purchase",
-    amount: 450,
-    categoryColor: "#F39C12", // Yellow-Orange for Shopping
-    transactionType: "expense",
-  },
-  {
-    id: "7",
-    category: "Housing",
-    date: "2023-10-07",
-    paymentMode: "Bank Transfer",
-    description: "Monthly rent payment",
-    amount: 1200,
-    categoryColor: "#2ECC71", // Green for Housing
-    transactionType: "income",
-  },
-  {
-    id: "8",
-    category: "Bills",
-    date: "2023-10-08",
-    paymentMode: "Debit Card",
-    description: "Internet bill",
-    amount: 100,
-    categoryColor: "#E74C3C", // Red for Bills
-    transactionType: "expense",
-  },
-  {
-    id: "9",
-    category: "Extra income",
-    date: "2023-10-09",
-    paymentMode: "Bank Transfer",
-    description: "Freelance project payment",
-    amount: 500,
-    categoryColor: "#8E44AD", // Purple for Extra income
-    transactionType: "income",
-  },
-  {
-    id: "10",
-    category: "Personal Care",
-    date: "2023-10-10",
-    paymentMode: "Cash",
-    description: "Haircut",
-    amount: 50,
-    categoryColor: "#FFC300", // Bright Yellow for Personal Care
-    transactionType: "expense",
-  },
-  {
-    id: "11",
-    category: "Interests",
-    date: "2023-10-11",
-    paymentMode: "Credit Card",
-    description: "Hobby supplies",
-    amount: 200,
-    categoryColor: "#2980B9", // Deep Blue for Interests
-    transactionType: "income",
-  },
-  {
-    id: "12",
-    category: "Miscellaneous",
-    date: "2023-10-12",
-    paymentMode: "Cash",
-    description: "Random expenses",
-    amount: 75,
-    categoryColor: "#95A5A6", // Gray for Miscellaneous
-    transactionType: "expense",
-  },
-  {
-    id: "13",
-    category: "Health Care",
-    date: "2023-10-13",
-    paymentMode: "Bank Transfer",
-    description: "Doctor's appointment",
-    amount: 150,
-    categoryColor: "#C0392B", // Dark Red for Health Care
-    transactionType: "income",
-  },
-  {
-    id: "14",
-    category: "Insurance",
-    date: "2023-10-14",
-    paymentMode: "Bank Transfer",
-    description: "Car insurance premium",
-    amount: 300,
-    categoryColor: "#34495E", // Dark Blue-Gray for Insurance
-    transactionType: "expense",
-  },
-  {
-    id: "15",
-    category: "Salary",
-    date: "2023-10-15",
-    paymentMode: "Bank Transfer",
-    description: "Monthly salary",
-    amount: 3000,
-    categoryColor: "#27AE60", // Green for Salary
-    transactionType: "income",
-  },
-  {
-    id: "16",
-    category: "Tax",
-    date: "2023-10-16",
-    paymentMode: "Bank Transfer",
-    description: "Quarterly tax payment",
-    amount: 500,
-    categoryColor: "#D35400", // Burnt Orange for Tax
-    transactionType: "expense",
-  },
-  {
-    id: "17",
-    category: "Education",
-    date: "2023-10-17",
-    paymentMode: "Credit Card",
-    description: "Online course fee",
-    amount: 200,
-    categoryColor: "#5DADE2", // Light Blue for Education
-    transactionType: "income",
-  },
-  {
-    id: "18",
-    category: "Mortgage / Rent",
-    date: "2023-10-18",
-    paymentMode: "Bank Transfer",
-    description: "Monthly mortgage payment",
-    amount: 1500,
-    categoryColor: "#1F618D", // Navy Blue for Mortgage / Rent
-    transactionType: "expense",
-  },
-];
+import { useAddTransaction } from "../contexts/AddTransaction.context";
+// import { dummyTransactions as data } from "../transactions";
 
 export const columns = [
   {
@@ -293,9 +102,12 @@ export const columns = [
 
       return (
         <div
-          className={cn("text-right font-medium text-red-500", {
-            "text-green-500": row.original.transactionType === "income",
-          })}
+          className={cn(
+            "text-[15px] float-right font-semibold text-red-500 font-mono",
+            {
+              "text-green-500": row.original.transactionType === "income",
+            }
+          )}
         >
           {formatted}
         </div>
@@ -308,10 +120,10 @@ export const columns = [
     cell: () => {
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger className="float-right">
             <Button
               variant="ghost"
-              className="h-8 w-8 p-0 cursor-pointer text-white/50 hover:text-white hover:bg-[#3a3a43a9]"
+              className="h-8 w-8 p-0 cursor-pointer right-0 relative text-white/50 hover:text-white hover:bg-[#3a3a43a9]"
             >
               <span className="sr-only">Open menu</span>
               <MoreHorizontal />
@@ -335,7 +147,8 @@ export const columns = [
 ];
 
 export function DataTable() {
-  const { setShowForm } = useShowForm();
+  const { setShowForm, transactions } = useAddTransaction();
+  const data = transactions;
 
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
@@ -408,13 +221,21 @@ export function DataTable() {
       </div>
 
       <div className="rounded-md border border-neutral-800">
-        <Table>
+        <Table className="capitalize">
           <TableHeader className="border-b border-neutral-800 bg-[#1a1a1f]">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead className="py-0.5" key={header.id}>
+                    <TableHead
+                      className={cn("py-0.5 md:visible invisible", {
+                        "visible py-0.5":
+                          header.id === "category" ||
+                          header.id === "select" ||
+                          header.id === "amount",
+                      })}
+                      key={header.id}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -427,19 +248,31 @@ export function DataTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="bg-[#121216]">
+          <TableBody className="bg-[#121216] ">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="data-[state=selected]:bg-white/10 py-10 hover:bg-[#28282fa9]"
+                  className={cn(
+                    "data-[state=selected]:bg-white/10 hover:bg-[#28282fa9]"
+                  )}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       <div
                         className={cn(
-                          `rounded-2xl bg-[${cell.row.original.categoryColor}] text-white`
+                          "rounded-2xl md:visible invisible",
+                          {
+                            "text-right bg-yellow-500 w-full":
+                              cell.column.id == "amount",
+                          },
+                          {
+                            "visible text-white":
+                              cell.column.id === "category" ||
+                              cell.column.id === "select" ||
+                              cell.column.id === "amount",
+                          }
                         )}
                       >
                         {flexRender(

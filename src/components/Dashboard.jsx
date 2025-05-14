@@ -8,14 +8,14 @@ import RecentTransactions from "./RecentTransactions";
 
 const Dashboard = () => {
   return (
-    <div className="w-full container mx-auto bg-neutral-950 px-6 py-3 gap-y-6 flex flex-col">
+    <div className="w-full md:container md:mx-auto bg-neutral-950 md:px-6 px-2 py-3 gap-y-6 flex flex-col">
       <Header />
 
       <StatCards />
 
       <DoughnutChart />
 
-      <div className="grid grid-cols-2 gap-x-6">
+      <div className="grid md:grid-cols-2 gap-6">
         <AccountBalanceChart />
         <VerticalBarChart />
       </div>

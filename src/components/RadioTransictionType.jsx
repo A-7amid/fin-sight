@@ -1,35 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { cn } from "../utils/clsx";
-import { useSelectedType } from "../contexts/AddTransaction.context";
+import { Controller } from "react-hook-form";
 
-const RadioTransictionType = ({ label, color }) => {
-  const { selectedType, setSelectedType } = useSelectedType();
-
+const RadioTransictionType = ({ label, color, control, name, value }) => {
   return (
-    <label
-      onClick={() => setSelectedType(label.toLowerCase())}
-      className={cn("flex items-center gap-x-2 cursor-pointer")}
-    >
-      <div
-        style={{ borderColor: color }}
-        className={cn(
-          "border rounded-full p-[3px] size-4 flex items-center justify-center"
-        )}
-      >
-        {selectedType === label.toLowerCase() && (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <label
+          className={cn("flex items-center gap-x-2 cursor-pointer")}
+          onClick={() => {
+            field.onChange(value);
+          }}
+        >
+          <div
+            style={{ borderColor: color }}
+            className={cn(
+              "border rounded-full p-[3px] size-4 flex items-center justify-center"
+            )}
+          >
+            {field.value === value && (
+              <span
+                style={{ backgroundColor: color }}
+                className={cn("size-2 rounded-full")}
+              ></span>
+            )}
+          </div>
           <span
-            style={{ backgroundColor: color }}
-            className={cn("size-2 rounded-full")}
-          ></span>
-        )}
-      </div>
-      <span
-        style={{ color: label.toLowerCase() === selectedType && color }}
-        className={cn(`text-white/60 font-medium text-sm`)}
-      >
-        {label}
-      </span>
-    </label>
+            style={{ color: field.value === value ? color : undefined }}
+            className={cn(`text-white/60 font-medium text-sm`)}
+          >
+            {label}
+          </span>
+        </label>
+      )}
+    />
   );
 };
 

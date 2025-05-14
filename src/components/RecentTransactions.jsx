@@ -8,58 +8,14 @@ import {
   TableCell,
 } from "./ui/table";
 import { cn } from "../utils/clsx";
+import { dummyTransactions } from "../transactions";
 
-const recentTransactions = [
-  {
-    id: 1,
-    date: "Nov 30, 2017",
-    category: "Food",
-    categoryColor: "#EF4444",
-    paymentMode: "Debit Card",
-    description: "Lunch at a restaurant",
-    amount: "$ 200",
-  },
-  {
-    id: 2,
-    date: "Dec 01, 2017",
-    category: "Transport",
-    categoryColor: "#34D399",
-    paymentMode: "Cash",
-    description: "Taxi fare",
-    amount: "$ 50",
-  },
-  {
-    id: 3,
-    date: "Dec 02, 2017",
-    category: "Shopping",
-    categoryColor: "#C4B5FD", // red-400 in hex
-    paymentMode: "Credit Card",
-    description: "Clothes shopping",
-    amount: "$ 300",
-  },
-  // {
-  //   id: 4,
-  //   date: "Dec 03, 2017",
-  //   category: "Entertainment",
-  //   textColor: "text-green-400",
-  //   bgColor: "bg-green-400",
-  //   paymentMode: "Debit Card",
-  //   description: "Movie tickets",
-  //   amount: "$ 100",
-  // },
-  // {
-  //   id: 5,
-  //   date: "Dec 04, 2017",
-  //   category: "Health",
-  //   textColor: "text-purple-400",
-  //   bgColor: "bg-purple-400",
-  //   paymentMode: "Cash",
-  //   description: "Pharmacy purchase",
-  //   amount: "$ 75",
-  // },
-];
+const recentTransactions = dummyTransactions.slice(0, 5);
 
-const transactionsHeads = [
+// const a = "hello";
+// console.log(a[0].toLocaleUpperCase() + a.slice(1));
+
+const transactionsHeaders = [
   "Date",
   "Category",
   "Payment Mode",
@@ -77,9 +33,12 @@ const RecentTransactions = () => {
       <Table>
         <TableHeader className="gap-5">
           <TableRow>
-            {transactionsHeads.map((head, i) => (
+            {transactionsHeaders.map((head, i) => (
               <TableHead
-                className={cn({ "text-end": head.toLowerCase() === "amount" })}
+                className={cn(
+                  { "text-end": head.toLowerCase() === "amount" },
+                  { "hidden md:block": head.toLowerCase() === "description" }
+                )}
                 key={i}
               >
                 {head}
@@ -89,13 +48,11 @@ const RecentTransactions = () => {
         </TableHeader>
 
         <TableBody>
-          {recentTransactions.map((transaction) => (
-            <TableRow className="hover:bg-[#24242a]" key={transaction.id}>
+          {recentTransactions.map((transaction, i) => (
+            <TableRow className="hover:bg-[#24242a]" key={i}>
               <TableCell className="font-light text-neutral-400">
                 {transaction.date}
               </TableCell>
-
-              <div className="py-1"></div>
 
               <TableCell
                 style={{
@@ -104,7 +61,7 @@ const RecentTransactions = () => {
                   color: transaction.categoryColor,
                 }}
                 className={cn(
-                  "rounded-full recent-transactions-cell translate-x-3 transition duration-200 w-fit flex text-xs py-0.5 px-2.5 font-medium items-center"
+                  "rounded-full recent-transactions-cell translate-x-3 mt-2 transition duration-200 w-fit flex text-xs py-0.5 px-2.5 font-medium items-center"
                 )}
               >
                 {transaction.category}
@@ -113,9 +70,15 @@ const RecentTransactions = () => {
               <TableCell className="text-neutral-300">
                 {transaction.paymentMode}
               </TableCell>
-              <TableCell>{transaction.description}</TableCell>
-              <TableCell className="text-end text-green-500 font-mono">
-                {transaction.amount}
+              <TableCell className="hidden md:block">
+                {transaction.description}
+              </TableCell>
+              <TableCell
+                className={cn("text-end font-mono text-green-500", {
+                  "text-red-500": transaction.transactionType === "expense",
+                })}
+              >
+                ${transaction.amount}
               </TableCell>
             </TableRow>
           ))}

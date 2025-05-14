@@ -162,3 +162,11 @@
 .transaction-labels {
   @apply text-sm font-medium w-fit;
 }
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 5px;
+  margin-inline-end: auto;
+  scale: 1.1;
+  filter: invert(75%);
+}

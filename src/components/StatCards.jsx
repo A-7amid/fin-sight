@@ -26,7 +26,7 @@ const statCards = [
 
 const StatCards = () => {
   return (
-    <div className="flex gap-x-6">
+    <div className="md:flex md:gap-x-6 grid grid-cols-2 gap-4">
       {statCards.map((statCard, i) => (
         <StatCard
           key={i}
