@@ -5,6 +5,7 @@ import { BsCurrencyDollar } from "react-icons/bs";
 import { GiSettingsKnobs } from "react-icons/gi";
 import MainCheckbox from "./MainCheckbox";
 import { DateRangePicker } from "./DateRangePicker";
+import { cn } from "../utils/clsx";
 
 const categoryOptions = [
   { value: "food", label: "Food" },
@@ -175,8 +176,7 @@ const style = {
 };
 
 const animatedComponents = makeAnimated();
-
-const Transactionsbar = () => {
+const FiltersContent = ({ className }) => {
   const [selectedOptions, setSelectedOptions] = useState([
     categoryOptions[3],
     categoryOptions[4],
@@ -187,11 +187,15 @@ const Transactionsbar = () => {
       e.target.value = e.target.value.slice(0, 8);
     }
   };
-
   return (
-    <div className="flex flex-col border border-neutral-800 min-h-screen max-h-full w-[440px] bg-[#121216]">
-      <div className="flex items-center m-4 justify-between">
-        <h3 className="text-xl font-semibold">Filters</h3>
+    <div
+      className={cn(
+        "md:flex flex-col hidden border border-neutral-800 min-h-screen max-h-full md:w-[440px] bg-[#121216]",
+        className
+      )}
+    >
+      <div className="flex items-center md:m-4 mx-4 my-2.5 justify-between">
+        <h3 className="md:text-xl text-md font-semibold">Filters</h3>
         <GiSettingsKnobs className="size-5 rotate-90 stroke-2 stroke-gray-400" />
       </div>
 
@@ -286,4 +290,4 @@ const Transactionsbar = () => {
   );
 };
 
-export default Transactionsbar;
+export default FiltersContent;

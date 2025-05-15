@@ -4,7 +4,6 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import DatePicker from "./DatePicker";
 import RadioTransictionType from "./RadioTransictionType";
-import { useAddTransaction } from "../contexts/AddTransaction.context";
 import { Input } from "@/components/ui/input";
 import SelectCategory from "./SelectCategory";
 import RadioPaymentMode from "./RadioPaymentMode";
@@ -12,9 +11,10 @@ import dayjs from "dayjs";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import { useForm } from "react-hook-form";
+import { useTransaction } from "../contexts/Transaction.context";
 
 const AddTransactionForm = () => {
-  const { showForm, setShowForm, handleAddTransaction } = useAddTransaction();
+  const { showForm, setShowForm, handleAddTransaction } = useTransaction();
   const {
     handleSubmit,
     register,
@@ -70,7 +70,7 @@ const AddTransactionForm = () => {
           <form
             data-aos="zoom-in-up"
             onSubmit={handleSubmit(onSubmit)}
-            className="bg-[#121216] text-white/70 flex flex-col py-4 border border-neutral-800 rounded-sm w-[27%]"
+            className="bg-[#121216] text-white/70 flex flex-col py-4 border border-neutral-800 rounded-sm md:w-[27%]"
           >
             <div className="flex items-center px-5">
               <h3 className="font-bold text-xl text-white/85">

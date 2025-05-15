@@ -1,6 +1,17 @@
 import React, { useRef, useState } from "react";
 import { MdArrowForwardIos, MdArrowBackIos } from "react-icons/md";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -29,8 +40,7 @@ import {
 import { cn } from "../utils/clsx";
 import { IoMdAdd } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
-import { useAddTransaction } from "../contexts/AddTransaction.context";
-// import { dummyTransactions as data } from "../transactions";
+import { useTransaction } from "../contexts/Transaction.context";
 
 export const columns = [
   {
@@ -117,7 +127,9 @@ export const columns = [
   {
     id: "actions",
     enableHiding: false,
-    cell: () => {
+    cell: ({ row }) => {
+      const { handleDeleteTransaction } = useTransaction();
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger className="float-right">
@@ -134,9 +146,52 @@ export const columns = [
             align="end"
           >
             <DropdownMenuItem className="text-white focus:text-white focus:bg-[#3a3a43a9]">
-              Edit
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="bg-[#121216]">
+                    Edit
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="bg-[#121216] text-white/70 flex flex-col py-4 border border-neutral-800 rounded-sm">
+                  <DialogHeader>
+                    <DialogTitle>Edit </DialogTitle>
+                    <DialogDescription>
+                      Make changes to your profile here. Click save when you're
+                      done.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="name" className="text-right">
+                        Name
+                      </Label>
+                      <Input
+                        id="name"
+                        value="Pedro Duarte"
+                        className="col-span-3"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="username" className="text-right">
+                        Username
+                      </Label>
+                      <Input
+                        id="username"
+                        value="@peduarte"
+                        className="col-span-3"
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button type="submit">Save changes</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-red-500 focus:text-red-500 focus:bg-[#3a3a43a9]">
+            <DropdownMenuItem
+              onClick={() => handleDeleteTransaction(row.original)}
+              className="text-red-500 focus:text-red-500 focus:bg-[#3a3a43a9]"
+            >
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -147,7 +202,7 @@ export const columns = [
 ];
 
 export function DataTable() {
-  const { setShowForm, transactions } = useAddTransaction();
+  const { setShowForm, transactions } = useTransaction();
   const data = transactions;
 
   const [sorting, setSorting] = React.useState([]);
@@ -186,8 +241,8 @@ export function DataTable() {
 
   return (
     <div className="px-5 min:h-full">
-      <div className="flex items-center mb-3 gap-x-4 w-full">
-        <div className="w-[80%] bg-[#121216] p-1.5 flex items-center border-neutral-800 border rounded-sm focus-within:border-blue-500 transition duration-75 justify-between">
+      <div className="flex items-center mb-3 md:gap-x-4 gap-x-1 w-full">
+        <div className="flex-4/5 bg-[#121216] md:p-1.5 py-0.5 px-1.5 flex items-center border-neutral-800 border rounded-xs md:rounded-sm focus-within:border-blue-500 transition duration-75 justify-between">
           <div className="flex items-center pl-1 gap-x-2.5 w-full">
             <CiSearch />
             <input
@@ -213,14 +268,14 @@ export function DataTable() {
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="px-2 py-1.5 gap-x-3 grow flex items-center justify-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer uppercase font-medium text-sm rounded-sm"
+          className="py-1 md:px-2 md:py-1.5 gap-x-3 grow flex items-center justify-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer uppercase font-medium text-sm rounded-xs md:rounded-sm"
         >
-          <IoMdAdd className="size-5 stroke-3" />
-          <span>add transaction</span>
+          <IoMdAdd className="md:size-5 stroke-3 size-5" />
+          <span className="hidden md:flex">add transaction</span>
         </button>
       </div>
 
-      <div className="rounded-md border border-neutral-800">
+      <div className="rounded-md border md:w-full w-[200px] border-neutral-800">
         <Table className="capitalize">
           <TableHeader className="border-b border-neutral-800 bg-[#1a1a1f]">
             {table.getHeaderGroups().map((headerGroup) => (

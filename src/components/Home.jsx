@@ -1,6 +1,5 @@
 import Dashboard from "./Dashboard";
 import Sidebar from "./Sidebar";
-import Aos from "aos";
 import "aos/dist/aos.css";
 import MobileNavbar from "./MobileNavbar";
 

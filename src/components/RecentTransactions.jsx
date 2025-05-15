@@ -37,7 +37,10 @@ const RecentTransactions = () => {
               <TableHead
                 className={cn(
                   { "text-end": head.toLowerCase() === "amount" },
-                  { "hidden md:block": head.toLowerCase() === "description" }
+                  {
+                    "hidden md:flex translate-y-2.5":
+                      head.toLowerCase() === "description",
+                  }
                 )}
                 key={i}
               >
