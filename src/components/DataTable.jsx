@@ -146,7 +146,7 @@ export const columns = [
             align="end"
           >
             <DropdownMenuItem className="text-white focus:text-white focus:bg-[#3a3a43a9]">
-              <Dialog>
+              {/* <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="outline" className="bg-[#121216]">
                     Edit
@@ -186,7 +186,8 @@ export const columns = [
                     <Button type="submit">Save changes</Button>
                   </DialogFooter>
                 </DialogContent>
-              </Dialog>
+              </Dialog> */}
+              Edit
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => handleDeleteTransaction(row.original)}
