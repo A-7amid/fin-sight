@@ -12,8 +12,9 @@ import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import { useForm } from "react-hook-form";
 import { useTransaction } from "../contexts/Transaction.context";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
-const AddTransactionForm = () => {
+const TransactionContent = () => {
   const { showForm, setShowForm, handleAddTransaction } = useTransaction();
   const {
     handleSubmit,
@@ -198,7 +199,7 @@ const AddTransactionForm = () => {
                     handleReset();
                     setShowForm(false);
                   }}
-                  className="bg-white/10 text-neutral-400 hover:bg-white/10 border-neutral-700 hover:text-white border transition duration-200 text-xs font-bold p-2.5 px-4 uppercase rounded-sm cursor-pointer"
+                  className="bg-white/10 text-neutral-400  hover:bg-white/10 border-neutral-700 hover:text-white border transition duration-200 text-xs font-bold p-2.5 px-4 uppercase rounded-sm cursor-pointer"
                 >
                   cancel
                 </button>
@@ -217,4 +218,131 @@ const AddTransactionForm = () => {
   );
 };
 
-export default AddTransactionForm;
+export const TransactionHeader = ({ label }) => {
+  return (
+    <div className="flex items-center px-3">
+      <h3 className="font-bold text-xl text-white/85">
+        {label} <span className="text-[#0ea5e9]">Transaction</span>
+      </h3>
+    </div>
+  );
+};
+
+export const TransactionDescription = ({ transaction }) => {
+  console.log(transaction);
+  return (
+    <div className="flex flex-col gap-y-6 px-5">
+      <div className="flex items-center gap-x-6">
+        {/* <RadioTransictionType
+          name="transactionType"
+          control={control}
+          label="Income"
+          value="income"
+          color="#0ea5e9"
+        />
+        <RadioTransictionType
+          name="transactionType"
+          control={control}
+          label="Expense"
+          value="expense"
+          color="#dc2626"
+        /> */}
+      </div>
+      <div className="grid grid-cols-2 gap-x-5 gap-y-6 items-center justify-center">
+        <div className="flex flex-col gap-y-2">
+          <label htmlFor="date-picker" className="transaction-labels">
+            Choose a Date
+          </label>
+          {/* <DatePicker control={control} name="date" id="date-picker" /> */}
+        </div>
+
+        <div className="flex flex-col gap-y-2">
+          <label htmlFor="time" className="transaction-labels">
+            Choose a Time
+          </label>
+
+          <div className="flex items-center transition relative duration-100 cursor-text border bg-white/5 hover:bg-white/10 border-neutral-700 hover:border-neutral-600 rounded-md">
+            {/* <Clock className="size-4 " /> */}
+            <Input
+              type="time"
+              defaultValue={transaction.description}
+              // {...register("time", { required: true })}
+              className="outline-none border-none p-0 cursor-text px-2 h-full py-1.5"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-y-2">
+          <label htmlFor="select-category" className="transaction-labels">
+            Select a Category
+          </label>
+          {/* <SelectCategory
+            name="category"
+            control={control}
+            id="select-category"
+          /> */}
+        </div>
+
+        <div className="flex flex-col gap-y-2">
+          <label htmlFor="amount" className="transaction-labels">
+            Enter an Amount
+          </label>
+          <div className="flex items-center relative border text-sm font-medium bg-white/5 border-neutral-700 rounded-sm p-1 py-1.5">
+            <BiDollar className="text-neutral-400 size-5" />
+            <div>
+              <input
+                id="amount"
+                type="number"
+                placeholder="0.00"
+                defaultValue={transaction.amount}
+                // {...register("amount", { required: true, min: 10 })}
+                className="outline-none w-full text-white/80"
+              />
+
+              {/* {errors.amount && <span>fadsfasd</span>} */}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col gap-y-2">
+        <label htmlFor="description" className="transaction-labels">
+          Description
+        </label>
+
+        <input
+          id="description"
+          placeholder="Add details about this transaction"
+          // {...register("description")}
+          defaultValue={transaction.description}
+          className="flex items-center text-sm tracking-wider font-light p-2 resize-none text-neutral-200 border outline-none duration-100 transition bg-white/5 border-neutral-700 hover:border-neutral-600 rounded-sm"
+        />
+      </div>
+
+      <div className="flex flex-col gap-y-2">
+        <span>Payment Mode</span>
+        <div className="flex items-center gap-x-6">
+          {/* <RadioPaymentMode
+            label="Cash"
+            value="cash"
+            name="paymentMode"
+            control={control}
+          />
+          <RadioPaymentMode
+            label="Debit Card"
+            value="debit card"
+            name="paymentMode"
+            control={control}
+          />
+          <RadioPaymentMode
+            label="Credit Card"
+            value="credit card"
+            name="paymentMode"
+            control={control}
+          /> */}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TransactionContent;

@@ -2,19 +2,56 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
-import { dummyTransactions } from "../transactions";
+import { useFilter } from "./Filter.context";
 
 /* eslint-disable-next-line react-refresh/only-export-components */
 export const TransactionContext = createContext();
 
+/* eslint-disable-next-line react-refresh/only-export-components */
+export const useTransaction = () => {
+  const context = useContext(TransactionContext);
+  if (!context)
+    throw new Error("useTransaction must be used within a TransactionProvider");
+  return context;
+};
+
 export const TransactionProvider = ({ children }) => {
-  const [transactions, setTransactions] = useState(dummyTransactions);
+  const { transactions, setTransactions, setFilteredTrs } = useFilter();
   const [showForm, setShowForm] = useState(false);
   const [selectedType, setSelectedType] = useState("expense");
   const [selectedPayment, setSelectedPayment] = useState("cash");
+  const [income, setIncome] = useState(
+    transactions
+      .filter((tr) => tr.transactionType === "income")
+      .reduce((acc, tr) => acc + Number(tr.amount), 0)
+  );
+  const [expenses, setExpenses] = useState(
+    transactions
+      .filter((tr) => tr.transactionType === "expense")
+      .reduce((acc, tr) => acc + Number(tr.amount), 0)
+  );
+  const [balance, setBalance] = useState(income - expenses);
+
+  useEffect(() => {
+    setIncome(
+      transactions
+        .filter((tr) => tr.transactionType === "income")
+        .reduce((acc, tr) => acc + Number(tr.amount), 0)
+    );
+    setExpenses(
+      transactions
+        .filter((tr) => tr.transactionType === "expense")
+        .reduce((acc, tr) => acc + Number(tr.amount), 0)
+    );
+  }, [transactions]);
+
+  useEffect(() => {
+    setBalance(income - expenses);
+  }, [income, expenses]);
 
   const handleAddTransaction = useCallback(
     (newTransaction) => {
@@ -26,9 +63,11 @@ export const TransactionProvider = ({ children }) => {
         },
         ...prev,
       ]);
+      // setFilteredTrs(transactions);
       setShowForm(false);
     },
-    [selectedType]
+
+    [selectedType, setTransactions, setFilteredTrs, transactions]
   );
 
   const handleDeleteTransaction = useCallback(
@@ -43,24 +82,34 @@ export const TransactionProvider = ({ children }) => {
 
   const values = useMemo(
     () => ({
-      transactions,
-      setTransactions,
       showForm,
       setShowForm,
+      transactions,
+      income,
+      setIncome,
+      setTransactions,
       selectedType,
       setSelectedType,
       selectedPayment,
       setSelectedPayment,
       handleAddTransaction,
       handleDeleteTransaction,
+      expenses,
+      setExpenses,
+      balance,
+      setBalance,
     }),
     [
       transactions,
+      setTransactions,
       showForm,
       selectedType,
+      income,
       selectedPayment,
       handleAddTransaction,
       handleDeleteTransaction,
+      expenses,
+      balance,
     ]
   );
 
@@ -69,14 +118,4 @@ export const TransactionProvider = ({ children }) => {
       {children}
     </TransactionContext.Provider>
   );
-};
-
-/* eslint-disable-next-line react-refresh/only-export-components */
-export const useTransaction = () => {
-  const context = useContext(TransactionContext);
-  if (!context)
-    throw new Error(
-      "useAddTransaction must be used within a AddTransactionProvider"
-    );
-  return context;
 };

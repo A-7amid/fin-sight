@@ -1,8 +1,8 @@
 import React from "react";
-import FiltersContent from "./FiltersContent";
+import FilterContent from "./FilterContent";
 
-const Filtersbar = () => {
-  return <FiltersContent />;
+const Filterbar = () => {
+  return <FilterContent />;
 };
 
-export default Filtersbar;
+export default Filterbar;

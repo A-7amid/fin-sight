@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "../utils/clsx";
 
-const StatCard = ({ statName, money, className }) => {
+const StatCard = ({ statName, number, className }) => {
   return (
     <div
       className={cn(
@@ -11,7 +11,10 @@ const StatCard = ({ statName, money, className }) => {
     >
       <span className="text-[#A1A1AA] font-medium text-sm">{statName}</span>
 
-      <span className="text-2xl font-bold">{money}</span>
+      <span className="text-2xl font-bold">
+        {statName.toLowerCase() !== "transactions" ? "$" : ""}
+        {number}
+      </span>
     </div>
   );
 };

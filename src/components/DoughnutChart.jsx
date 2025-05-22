@@ -1,41 +1,73 @@
-import React from "react";
 import { Doughnut } from "react-chartjs-2";
-
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { BsBorderWidth } from "react-icons/bs";
+import { useTransaction } from "../contexts/Transaction.context";
+import { useEffect, useState } from "react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const categoryColors = [
+  { value: "food", color: "#D14141" }, // Red
+  { value: "transportation", color: "#3385D6" }, // Medium blue
+  { value: "rent", color: "#D47B00" }, // Orange
+  { value: "salary", color: "#1A9A8E" }, // Turquoise
+  { value: "shopping", color: "#C1242F" }, // Cherry red
+  { value: "housing", color: "#2E5978" }, // Steel blue
+  { value: "utilities", color: "#4344AD" }, // Purple-blue
+  { value: "bills", color: "#C56500" }, // Dark orange
+  { value: "personal_care", color: "#5E8AB4" }, // Slate blue (replaced pink)
+  { value: "extra_income", color: "#05A77C" }, // Green
+  { value: "clothing", color: "#0D678B" }, // Navy blue
+  { value: "insurance", color: "#1F4287" }, // Royal blue (replaced dark navy)
+  { value: "business", color: "#48522A" }, // Olive green
+  { value: "interests", color: "#D99C28" }, // Gold
+  { value: "health_care", color: "#4682B4" }, // Steel blue (replaced light blue)
+  { value: "miscellaneous", color: "#787878" }, // Gray
+  { value: "tax", color: "#554994" }, // Indigo (replaced violet)
+  { value: "education", color: "#2D6B8E" }, // Teal blue (replaced magenta)
+];
+
 const DoughnutChart = () => {
+  const { transactions } = useTransaction();
+  const [expenses, setExpenses] = useState(
+    transactions.filter((tr) => tr.transactionType === "expense")
+  );
+
+  // Problem
+  useEffect(() => {
+    setExpenses(transactions.filter((tr) => tr.transactionType === "expense"));
+  }, [transactions]);
+
+  const categoryTotals = expenses.reduce((acc, tr) => {
+    const category = tr.category;
+    const amount = Number(tr.amount);
+    acc[category] = (acc[category] || 0) + amount;
+    return acc;
+  }, {});
+
+  const totalExpense = Object.values(categoryTotals).reduce((sum, amount) => {
+    return sum + amount;
+  });
+
+  const categories = Object.keys(categoryTotals);
+  const percentages = categories.map((category) => {
+    const amount = categoryTotals[category];
+    return totalExpense === 0 ? 0 : (amount / totalExpense) * 100;
+  });
+
+  const backgroundColors = categories.map((category) => {
+    const colorObj = categoryColors.find((c) =>
+      c.value === category.toLowerCase().replace(" ", "_") ? c.color : ""
+    );
+    return colorObj ? colorObj.color : "#AAAAAA";
+  });
+
   const data = {
-    labels: [
-      "Mortgage / Rent",
-      "Food",
-      "Utilities",
-      "Bills",
-      "Shopping",
-      "Transportation",
-      "Insurance",
-      "Health Care",
-      "Clothing",
-      "Others",
-    ],
+    labels: categories,
     datasets: [
       {
         label: "Total Expenses",
-        data: [6.52, 20, 35, 15, 23.48, 10, 12, 8, 5, 4],
-        backgroundColor: [
-          "#10b981",
-          "#eab308",
-          "#f97316",
-          "#ef4444",
-          "#3b82f6",
-          "#f472b6",
-          "#a855f7",
-          "#6366f1",
-          "#4f46e5",
-          "#06b6d4",
-        ],
+        data: percentages,
+        backgroundColor: backgroundColors,
         borderColor: "#121216",
       },
     ],
@@ -44,22 +76,19 @@ const DoughnutChart = () => {
   const options = {
     responsive: true,
     cutout: "65%",
-
     maintainAspectRatio: false,
     plugins: {
       legend: {
         labels: {
           boxWidth: 14,
-          textColor: "white",
+          color: "white",
         },
-
         position: "right",
       },
       tooltip: {
         callbacks: {
-          label: function (tooltipItem) {
-            return `${tooltipItem.label}: ${tooltipItem.raw}%`;
-          },
+          label: (tooltipItem) =>
+            `${tooltipItem.label}: ${tooltipItem.raw?.toFixed(2)}%`,
         },
       },
     },
@@ -74,7 +103,11 @@ const DoughnutChart = () => {
         </span>
       </div>
       <div className="flex h-full w-full items-center justify-center">
-        <Doughnut options={options} data={data} />
+        {totalExpense === 0 ? (
+          <div className="text-zinc-400">No expenses to display.</div>
+        ) : (
+          <Doughnut options={options} data={data} />
+        )}
       </div>
     </div>
   );

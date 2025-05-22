@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { BsCurrencyDollar } from "react-icons/bs";
@@ -6,6 +6,7 @@ import { GiSettingsKnobs } from "react-icons/gi";
 import MainCheckbox from "./MainCheckbox";
 import { DateRangePicker } from "./DateRangePicker";
 import { cn } from "../utils/clsx";
+import { useFilter } from "../contexts/Filter.context";
 
 const categoryOptions = [
   { value: "food", label: "Food" },
@@ -176,17 +177,34 @@ const style = {
 };
 
 const animatedComponents = makeAnimated();
-const FiltersContent = ({ className }) => {
-  const [selectedOptions, setSelectedOptions] = useState([
-    categoryOptions[3],
-    categoryOptions[4],
-  ]);
+export const FilterContent = ({ className }) => {
+  const {
+    maxAmount,
+    setMinAmount,
+    setMaxAmount,
+    minAmount,
+    selectedCategories,
+    setSelectedCategories,
+    handleFilter,
+  } = useFilter();
 
   const handleLimitation = (e) => {
     if (e.target.value.length > 8) {
-      e.target.value = e.target.value.slice(0, 8);
+      e.target.value = e.target.value.slice(0, 12);
     }
   };
+  useEffect(() => {
+    handleFilter();
+  }, [minAmount, handleFilter, maxAmount, selectedCategories]);
+
+  // useEffect(() => {
+  //   minAmount > maxAmount ? setMinAmount(maxAmount) : null;
+  // }, [minAmount, maxAmount, setMinAmount]);
+
+  // useEffect(() => {
+  //   maxAmount > minAmount ? setMinAmount(minAmount) : null;
+  // }, [maxAmount, minAmount, setMinAmount]);
+
   return (
     <div
       className={cn(
@@ -201,6 +219,8 @@ const FiltersContent = ({ className }) => {
 
       <div className="h-px w-full bg-neutral-800"></div>
 
+      {/* <button onClick={() => handleFilter()}>click me</button> */}
+
       <div className="flex flex-col gap-y-8 p-4">
         <div className="flex flex-col gap-2">
           <span className="text-white/60 text-sm">Select a range</span>
@@ -213,9 +233,12 @@ const FiltersContent = ({ className }) => {
           <Select
             isMulti
             name="categories"
-            value={selectedOptions}
+            value={selectedCategories}
             options={categoryOptions}
-            onChange={setSelectedOptions}
+            onChange={(e) => {
+              setSelectedCategories(e);
+              handleFilter();
+            }}
             components={animatedComponents}
             className="category-multi-select"
             classNamePrefix="category-select"
@@ -230,8 +253,8 @@ const FiltersContent = ({ className }) => {
           </span>
 
           <div className="grid grid-cols-2 items-center">
-            <MainCheckbox title={"Income"} />
-            <MainCheckbox title={"Expense"} />
+            <MainCheckbox label={"income"} />
+            <MainCheckbox label={"expense"} />
           </div>
         </div>
 
@@ -240,9 +263,9 @@ const FiltersContent = ({ className }) => {
             Payment Mode
           </span>
           <div className="flex flex-col gap-y-1.5">
-            <MainCheckbox title={"Cash"} />
-            <MainCheckbox title={"Debit Card"} />
-            <MainCheckbox title={"Credit Card"} />
+            <MainCheckbox label={"cash"} />
+            <MainCheckbox label={"debit card"} />
+            <MainCheckbox label={"credit card"} />
           </div>
         </div>
 
@@ -258,10 +281,9 @@ const FiltersContent = ({ className }) => {
 
                   <input
                     type="number"
-                    defaultValue="2"
-                    onInput={(e) => {
-                      handleLimitation(e);
-                    }}
+                    value={minAmount}
+                    onInput={(e) => handleLimitation(e)}
+                    onChange={(e) => setMinAmount(e.target.value)}
                     className="outline-none w-full font-semibold"
                   />
                 </div>
@@ -276,8 +298,9 @@ const FiltersContent = ({ className }) => {
 
                   <input
                     type="number"
-                    defaultValue="6000"
+                    value={maxAmount}
                     onInput={(e) => handleLimitation(e)}
+                    onChange={(e) => setMaxAmount(e.target.value)}
                     className="outline-none w-full font-semibold"
                   />
                 </div>
@@ -290,4 +313,4 @@ const FiltersContent = ({ className }) => {
   );
 };
 
-export default FiltersContent;
+export default FilterContent;

@@ -13,7 +13,7 @@ import "react-clock/dist/Clock.css";
 import { useForm } from "react-hook-form";
 import { useTransaction } from "../contexts/Transaction.context";
 
-const AddTransactionForm = () => {
+const EditTransactionForm = () => {
   const { showForm, setShowForm, handleAddTransaction } = useTransaction();
   const {
     handleSubmit,
@@ -111,7 +111,6 @@ const AddTransactionForm = () => {
                   </label>
 
                   <div className="flex items-center transition relative duration-100 cursor-text border bg-white/5 hover:bg-white/10 border-neutral-700 hover:border-neutral-600 rounded-md">
-                    {/* <Clock className="size-4 " /> */}
                     <Input
                       type="time"
                       {...register("time", { required: true })}
@@ -217,4 +216,4 @@ const AddTransactionForm = () => {
   );
 };
 
-export default AddTransactionForm;
+export default EditTransactionForm;

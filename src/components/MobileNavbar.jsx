@@ -11,7 +11,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { GiSettingsKnobs } from "react-icons/gi";
-import FiltersContent from "./FiltersContent";
+import FilterContent from "./FilterContent";
 
 const MobileNavbar = ({ showFilters = false }) => {
   return (
@@ -47,7 +47,7 @@ const MobileNavbar = ({ showFilters = false }) => {
             </button>
           </SheetTrigger>
           <SheetContent className="border-neutral-700 md:w-full w-[70%] text-white/80">
-            <FiltersContent className="flex" />
+            <FilterContent className="flex" />
           </SheetContent>
         </Sheet>
       )}

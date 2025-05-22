@@ -8,9 +8,7 @@ import {
   TableCell,
 } from "./ui/table";
 import { cn } from "../utils/clsx";
-import { dummyTransactions } from "../transactions";
-
-const recentTransactions = dummyTransactions.slice(0, 5);
+import { useTransaction } from "../contexts/Transaction.context";
 
 // const a = "hello";
 // console.log(a[0].toLocaleUpperCase() + a.slice(1));
@@ -24,8 +22,10 @@ const transactionsHeaders = [
 ];
 
 const RecentTransactions = () => {
+  const { transactions } = useTransaction();
+  const recentTransactions = transactions.slice(0, 5);
   return (
-    <div className="rounded-lg flex flex-col border border-neutral-800 pt-5 mb-3 bg-[#121216] w-full">
+    <div className="rounded-lg flex flex-col border capitalize border-neutral-800 pt-5 mb-3 bg-[#121216] w-full">
       <h2 className="font-semibold text-xl px-5 mb-4">Recent Transactions</h2>
 
       <div className="h-px bg-neutral-800 w-full"></div>

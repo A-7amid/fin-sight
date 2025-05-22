@@ -1,3 +1,4 @@
+
 import React from "react";
 import { CiCalendar } from "react-icons/ci";
 import { BiHomeAlt } from "react-icons/bi";
@@ -5,6 +6,7 @@ import { GoPerson } from "react-icons/go";
 import { cn } from "../utils/clsx";
 import Separator from "./Separator";
 import { NavLink } from "react-router-dom";
+import { useTransaction } from "../contexts/Transaction.context";
 
 const pages = [
   {
@@ -31,16 +33,23 @@ const pages = [
 ];
 
 const SidebarContent = () => {
+  const { balance } = useTransaction();
+  const formattedBalance = new Intl.NumberFormat("en-US").format(balance);
+
   return (
-    <div className="gap-y-4 flex flex-col">
-      <div className="flex flex-col gap-y-4 items-center justify-center mx-8 px-7">
-        <div className="rounded-full flex strok-1 size-20 bg-white"></div>
+    <div className="gap-y-4 flex flex-col w-[245px] relative">
+      <div className="flex flex-col gap-y-2 items-center justify-center mx-8 px-7">
+        <img
+          src="/assets/images/tobi.png"
+          className="rounded-full flex strok-1 size-20 bg-white"
+          alt="account-avatar"
+        />
         <span className="fond-semibold text-lg">Ali Ahmed</span>
 
         <div className="rounded-2xl gap-x-2 flex px-3 py-1 items-center">
           <span className="text-sm font-semibold text-[#94939b]">Balance</span>
           <span className="md:font-bold md:text-xl font-medium text-md bg-gradient-to-r from-cyan-400 to-indigo-400 text-transparent bg-clip-text">
-            $5,240
+            ${formattedBalance}
           </span>
         </div>
       </div>

@@ -14,7 +14,7 @@ import { Controller } from "react-hook-form";
 const categories = [
   { value: "food", label: "Food" },
   { value: "transportation", label: "Transportation" },
-  { value: "mortgage_rent", label: "Mortgage / Rent" },
+  { value: "rent", label: "Rent" },
   { value: "salary", label: "Salary" },
   { value: "shopping", label: "Shopping" },
   { value: "housing", label: "Housing" },

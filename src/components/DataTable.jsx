@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,7 +20,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { MoreHorizontal, X } from "lucide-react";
+import { CircleAlert, MoreHorizontal, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -41,6 +42,13 @@ import { cn } from "../utils/clsx";
 import { IoMdAdd } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { useTransaction } from "../contexts/Transaction.context";
+import AddTransactionForm from "./AddTransactionForm";
+import EditTransactionForm from "./EditTransactionForm";
+import TransactionContent, {
+  TransactionDescription,
+  TransactionHeader,
+} from "./TransactionFormContent";
+import { useFilter } from "../contexts/Filter.context";
 
 export const columns = [
   {
@@ -145,55 +153,82 @@ export const columns = [
             className="bg-[#1a1a1f] border-neutral-800"
             align="end"
           >
-            <DropdownMenuItem className="text-white focus:text-white focus:bg-[#3a3a43a9]">
-              {/* <Dialog>
+            <DropdownMenuItem
+              asChild
+              className="text-white focus:text-white focus:bg-[#3a3a43a9]"
+            >
+              <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" className="bg-[#121216]">
+                  <Button
+                    variant="outline"
+                    className="flex text-white bg-transparent w-full border-none justify-start px-2 hover:bg-[#3a3a43a9]"
+                  >
                     Edit
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="bg-[#121216] text-white/70 flex flex-col py-4 border border-neutral-800 rounded-sm">
+                <DialogContent className="bg-[#121216] flex px-0 flex-col text-white/85 py-4 border border-neutral-800 rounded-sm">
                   <DialogHeader>
-                    <DialogTitle>Edit </DialogTitle>
+                    <TransactionHeader label="Edit" />
+                    <div className="bg-neutral-800 h-px my-2.5 w-full flex"></div>
+
                     <DialogDescription>
-                      Make changes to your profile here. Click save when you're
-                      done.
+                      {/* {console.log(row)} */}
+                      <TransactionDescription transaction={row.original} />
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="name" className="text-right">
-                        Name
-                      </Label>
-                      <Input
-                        id="name"
-                        value="Pedro Duarte"
-                        className="col-span-3"
-                      />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="username" className="text-right">
-                        Username
-                      </Label>
-                      <Input
-                        id="username"
-                        value="@peduarte"
-                        className="col-span-3"
-                      />
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button type="submit">Save changes</Button>
-                  </DialogFooter>
                 </DialogContent>
-              </Dialog> */}
-              Edit
+              </Dialog>
             </DropdownMenuItem>
             <DropdownMenuItem
+              asChild
               onClick={() => handleDeleteTransaction(row.original)}
               className="text-red-500 focus:text-red-500 focus:bg-[#3a3a43a9]"
             >
-              Delete
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    // onCLick={() => setShowForm(true)}
+                    className="flex text-red-500 bg-transparent w-full border-none justify-start px-2 hover:bg-[#3a3a43a9]"
+                  >
+                    Delete
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="bg-[#121216] flex px-0 flex-col text-white/85 py-4 border border-neutral-800 rounded-sm">
+                  <DialogHeader>
+                    <DialogTitle className="font-bold items-center px-3 text-xl gap-x-4 flex justify-start text-white/85">
+                      <CircleAlert color={"red"} />
+                      <span>Delete Transaction</span>
+                    </DialogTitle>
+
+                    <div className="bg-neutral-800 h-px my-2.5 w-full flex"></div>
+
+                    <DialogDescription className="px-3">
+                      Are you sure you want to delete the selected transaction?
+                    </DialogDescription>
+                  </DialogHeader>
+
+                  <DialogFooter className="flex items-center px-3 gap-x-2 mt-2">
+                    <DialogClose>
+                      <button
+                        type="button"
+                        className="px-5 py-1.5 bg-neutral-700 hover:bg-neutral-600 border border-zinc-800 cursor-pointer rounded-md text-neutral-200 transition duration-150 hover:text-white"
+                      >
+                        Cancel
+                      </button>
+                    </DialogClose>
+                    <DialogClose>
+                      <button
+                        type="submit"
+                        onClick={() => handleDeleteTransaction(row.original)}
+                        className="px-5 py-1.5 cursor-pointer rounded-md bg-red-600 text-white"
+                      >
+                        Delete
+                      </button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -204,7 +239,8 @@ export const columns = [
 
 export function DataTable() {
   const { setShowForm, transactions } = useTransaction();
-  const data = transactions;
+  const { filteredTrs, isFilter } = useFilter();
+  const data = isFilter ? filteredTrs : transactions;
 
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
