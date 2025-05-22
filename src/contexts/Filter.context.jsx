@@ -3,10 +3,11 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
-import { dummyTransactions } from "../transactions";
+import { useTransaction } from "./Transaction.context";
 
 /* eslint-disable-next-line react-refresh/only-export-components */
 export const FilterContext = createContext();
@@ -20,8 +21,7 @@ export const useFilter = () => {
 };
 
 export const FilterProvider = ({ children }) => {
-  const [transactions, setTransactions] = useState(dummyTransactions);
-
+  const { transactions } = useTransaction();
   const [filteredTrs, setFilteredTrs] = useState();
   const [isFilter, setIsFilter] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -110,6 +110,10 @@ export const FilterProvider = ({ children }) => {
     setFilteredTrs,
   ]);
 
+  useEffect(() => {
+    setFilteredTrs(transactions);
+  }, [transactions]);
+
   const values = useMemo(
     () => ({
       selectedCategories,
@@ -122,8 +126,6 @@ export const FilterProvider = ({ children }) => {
       isFilter,
       isExpense,
       setIsExpense,
-      transactions,
-      setTransactions,
       setIsFilter,
       paymentMode,
       setPaymentMode,
@@ -139,7 +141,6 @@ export const FilterProvider = ({ children }) => {
       minAmount,
       maxAmount,
       isFilter,
-      transactions,
       filteredTrs,
       isIncome,
       paymentMode,

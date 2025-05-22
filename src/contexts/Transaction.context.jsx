@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useFilter } from "./Filter.context";
+import { dummyTransactions } from "../transactions";
 
 /* eslint-disable-next-line react-refresh/only-export-components */
 export const TransactionContext = createContext();
@@ -20,7 +20,7 @@ export const useTransaction = () => {
 };
 
 export const TransactionProvider = ({ children }) => {
-  const { transactions, setTransactions, setFilteredTrs } = useFilter();
+  const [transactions, setTransactions] = useState(dummyTransactions);
   const [showForm, setShowForm] = useState(false);
   const [selectedType, setSelectedType] = useState("expense");
   const [selectedPayment, setSelectedPayment] = useState("cash");
@@ -63,11 +63,9 @@ export const TransactionProvider = ({ children }) => {
         },
         ...prev,
       ]);
-      // setFilteredTrs(transactions);
       setShowForm(false);
     },
-
-    [selectedType, setTransactions, setFilteredTrs, transactions]
+    [selectedType]
   );
 
   const handleDeleteTransaction = useCallback(
@@ -101,7 +99,6 @@ export const TransactionProvider = ({ children }) => {
     }),
     [
       transactions,
-      setTransactions,
       showForm,
       selectedType,
       income,

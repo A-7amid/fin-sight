@@ -6,11 +6,11 @@ import { TransactionProvider } from "./contexts/Transaction.context.jsx";
 import { FilterProvider } from "./contexts/Filter.context.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <FilterProvider>
-    <TransactionProvider>
+  <TransactionProvider>
+    <FilterProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </TransactionProvider>
-  </FilterProvider>
+    </FilterProvider>
+  </TransactionProvider>
 );
