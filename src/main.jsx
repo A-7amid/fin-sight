@@ -4,13 +4,16 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { TransactionProvider } from "./contexts/Transaction.context.jsx";
 import { FilterProvider } from "./contexts/Filter.context.jsx";
+import { ChartProvider } from "./contexts/Chart.context.jsx";
 
 createRoot(document.getElementById("root")).render(
   <TransactionProvider>
     <FilterProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ChartProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ChartProvider>
     </FilterProvider>
   </TransactionProvider>
 );

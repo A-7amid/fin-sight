@@ -1,11 +1,10 @@
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { useTransaction } from "../contexts/Transaction.context";
-import { useEffect, useState } from "react";
+import { useChart } from "../contexts/Chart.context";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const categoryColors = [
+export const categoryColors = [
   { value: "food", color: "#D14141" }, // Red
   { value: "transportation", color: "#3385D6" }, // Medium blue
   { value: "rent", color: "#D47B00" }, // Orange
@@ -27,39 +26,8 @@ const categoryColors = [
 ];
 
 const DoughnutChart = () => {
-  const { transactions } = useTransaction();
-  const [expenses, setExpenses] = useState(
-    transactions.filter((tr) => tr.transactionType === "expense")
-  );
-
-  // Problem
-  useEffect(() => {
-    setExpenses(transactions.filter((tr) => tr.transactionType === "expense"));
-  }, [transactions]);
-
-  const categoryTotals = expenses.reduce((acc, tr) => {
-    const category = tr.category;
-    const amount = Number(tr.amount);
-    acc[category] = (acc[category] || 0) + amount;
-    return acc;
-  }, {});
-
-  const totalExpense = Object.values(categoryTotals).reduce((sum, amount) => {
-    return sum + amount;
-  });
-
-  const categories = Object.keys(categoryTotals);
-  const percentages = categories.map((category) => {
-    const amount = categoryTotals[category];
-    return totalExpense === 0 ? 0 : (amount / totalExpense) * 100;
-  });
-
-  const backgroundColors = categories.map((category) => {
-    const colorObj = categoryColors.find((c) =>
-      c.value === category.toLowerCase().replace(" ", "_") ? c.color : ""
-    );
-    return colorObj ? colorObj.color : "#AAAAAA";
-  });
+  const { categories, percentages, backgroundColors, totalExpense } =
+    useChart();
 
   const data = {
     labels: categories,
