@@ -36,6 +36,7 @@ const SelectCategory = ({ id, name, control }) => {
   return (
     <Controller
       control={control}
+      rules={{ required: true }}
       name={name}
       render={({ field }) => (
         <Select value={field.value} onValueChange={field.onChange}>
@@ -45,7 +46,10 @@ const SelectCategory = ({ id, name, control }) => {
           >
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
-          <SelectContent className="bg-neutral-900 border-neutral-600 cursor-pointer text-white">
+          <SelectContent
+            position="down"
+            className="bg-neutral-900 mt-17 border-neutral-600 cursor-pointer text-white"
+          >
             <SelectGroup>
               <SelectLabel className="border-b border-neutral-700">
                 Categories

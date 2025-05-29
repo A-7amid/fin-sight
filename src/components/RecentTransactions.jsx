@@ -10,9 +10,6 @@ import {
 import { cn } from "../utils/clsx";
 import { useTransaction } from "../contexts/Transaction.context";
 
-// const a = "hello";
-// console.log(a[0].toLocaleUpperCase() + a.slice(1));
-
 const transactionsHeaders = [
   "Date",
   "Category",

@@ -159,7 +159,7 @@
 }
 
 .transaction-labels {
-  @apply text-sm font-medium w-fit;
+  @apply text-sm font-medium w-fit flex flex-col;
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {

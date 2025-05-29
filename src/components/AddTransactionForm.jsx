@@ -28,6 +28,7 @@ const AddTransactionForm = () => {
       date: dayjs().format("YYYY-MM-DD"),
       description: "",
       amount: "",
+      category: "",
       paymentMode: "cash",
       transactionType: "expense",
     },
@@ -126,6 +127,11 @@ const AddTransactionForm = () => {
                     className="transaction-labels"
                   >
                     Select a Category
+                    {errors.category && (
+                      <span className="text-red-500 text-xs font-light italic">
+                        Select a category.
+                      </span>
+                    )}
                   </label>
                   <SelectCategory
                     name="category"
@@ -137,6 +143,11 @@ const AddTransactionForm = () => {
                 <div className="flex flex-col gap-y-2">
                   <label htmlFor="amount" className="transaction-labels">
                     Enter an Amount
+                    {errors.amount && (
+                      <span className="text-red-500 text-xs font-light italic">
+                        Amount must be at least 2.
+                      </span>
+                    )}
                   </label>
                   <div className="flex items-center relative border text-sm font-medium bg-white/5 border-neutral-700 rounded-sm p-1 py-1.5">
                     <BiDollar className="text-neutral-400 size-5" />
@@ -148,8 +159,6 @@ const AddTransactionForm = () => {
                         {...register("amount", { required: true, min: 10 })}
                         className="outline-none w-full text-white/80"
                       />
-
-                      {errors.amount && <span>fadsfasd</span>}
                     </div>
                   </div>
                 </div>
@@ -157,12 +166,17 @@ const AddTransactionForm = () => {
               <div className="flex flex-col gap-y-2">
                 <label htmlFor="description" className="transaction-labels">
                   Description
+                  {errors.description && (
+                    <span className="text-red-500 text-xs font-light italic">
+                      Fill the description.
+                    </span>
+                  )}
                 </label>
 
                 <input
                   id="description"
                   placeholder="Add details about this transaction"
-                  {...register("description")}
+                  {...register("description", { required: true })}
                   className="flex items-center text-sm tracking-wider font-light p-2 resize-none text-neutral-200 border outline-none duration-100 transition bg-white/5 border-neutral-700 hover:border-neutral-600 rounded-sm"
                 />
               </div>
