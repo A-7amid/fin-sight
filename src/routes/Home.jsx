@@ -1,7 +1,7 @@
-import Dashboard from "./Dashboard";
-import Sidebar from "./Sidebar";
+import Dashboard from "../components/Dashboard";
+import Sidebar from "../components/Sidebar";
 import "aos/dist/aos.css";
-import MobileNavbar from "./MobileNavbar";
+import MobileNavbar from "../components/MobileNavbar";
 
 import "../index.css";
 

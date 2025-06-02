@@ -10,8 +10,6 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   flexRender,
   getCoreRowModel,
@@ -42,13 +40,8 @@ import { cn } from "../utils/clsx";
 import { IoMdAdd } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { useTransaction } from "../contexts/Transaction.context";
-import AddTransactionForm from "./AddTransactionForm";
-import EditTransactionForm from "./EditTransactionForm";
-import TransactionContent, {
-  TransactionDescription,
-  TransactionHeader,
-} from "./TransactionFormContent";
 import { useFilter } from "../contexts/Filter.context";
+import { AddTransactionForm, EditTransactionForm } from "./TransactionForm";
 
 export const columns = [
   {
@@ -166,16 +159,22 @@ export const columns = [
                     Edit
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="bg-[#121216] flex px-0 flex-col text-white/85 py-4 border border-neutral-800 rounded-sm">
+                <DialogContent className="bg-[#121216] flex px-0 py-0 flex-col text-white/85 border border-neutral-800 rounded-sm">
                   <DialogHeader>
-                    <TransactionHeader label="Edit" />
-                    <div className="bg-neutral-800 h-px my-2.5 w-full flex"></div>
+                    <DialogTitle>
+                      {/* <TransactionTitle title="Edit" /> */}
+                    </DialogTitle>
 
                     <DialogDescription>
-                      {/* {console.log(row)} */}
-                      <TransactionDescription transaction={row.original} />
+                      <EditTransactionForm />
+                      {/* <TransactionContent title="edit" /> */}
+                      {/* <TransactionDescription transaction={row.original} /> */}
                     </DialogDescription>
                   </DialogHeader>
+
+                  <DialogFooter>
+                    <DialogClose>{/* <TransactionFooter /> */}</DialogClose>
+                  </DialogFooter>
                 </DialogContent>
               </Dialog>
             </DropdownMenuItem>
@@ -188,7 +187,6 @@ export const columns = [
                 <DialogTrigger asChild>
                   <Button
                     variant="outline"
-                    // onCLick={() => setShowForm(true)}
                     className="flex text-red-500 bg-transparent w-full border-none justify-start px-2 hover:bg-[#3a3a43a9]"
                   >
                     Delete
@@ -238,7 +236,7 @@ export const columns = [
 ];
 
 export function DataTable() {
-  const { setShowForm, transactions } = useTransaction();
+  const { transactions } = useTransaction();
   const { filteredTrs, isFilter } = useFilter();
   const data = isFilter ? filteredTrs : transactions;
 
@@ -303,13 +301,28 @@ export function DataTable() {
             />
           )}
         </div>
-        <button
-          onClick={() => setShowForm(true)}
-          className="py-1 md:px-2 md:py-1.5 gap-x-3 grow flex items-center justify-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer uppercase font-medium text-sm rounded-xs md:rounded-sm"
-        >
-          <IoMdAdd className="md:size-5 stroke-3 size-5" />
-          <span className="hidden md:flex">add transaction</span>
-        </button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <button className="py-1 md:px-2 md:py-1.5 gap-x-3 grow flex items-center justify-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer font-medium text-sm rounded-xs md:rounded-sm">
+              <IoMdAdd className="md:size-5 stroke-3 size-5" />
+              <span className="hidden md:flex uppercase">add transaction</span>
+            </button>
+          </DialogTrigger>
+          <DialogContent className="bg-[#121216] flex px-0 py-0 flex-col text-white/85 border border-neutral-800 rounded-sm">
+            <DialogHeader>
+              <DialogTitle>
+                {/* <TransactionTitle title="new" /> */}
+              </DialogTitle>
+
+              <DialogDescription>
+                <AddTransactionForm />
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose>{/* <TransactionFooter /> */}</DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="rounded-md border md:w-full w-[200px] border-neutral-800">

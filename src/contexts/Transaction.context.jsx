@@ -21,7 +21,6 @@ export const useTransaction = () => {
 
 export const TransactionProvider = ({ children }) => {
   const [transactions, setTransactions] = useState(dummyTransactions);
-  const [showForm, setShowForm] = useState(false);
   const [selectedType, setSelectedType] = useState("expense");
   const [selectedPayment, setSelectedPayment] = useState("cash");
   const [income, setIncome] = useState(
@@ -63,7 +62,6 @@ export const TransactionProvider = ({ children }) => {
         },
         ...prev,
       ]);
-      setShowForm(false);
     },
     [selectedType]
   );
@@ -80,8 +78,6 @@ export const TransactionProvider = ({ children }) => {
 
   const values = useMemo(
     () => ({
-      showForm,
-      setShowForm,
       transactions,
       income,
       setIncome,
@@ -99,7 +95,6 @@ export const TransactionProvider = ({ children }) => {
     }),
     [
       transactions,
-      showForm,
       selectedType,
       income,
       selectedPayment,

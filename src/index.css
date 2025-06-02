@@ -169,3 +169,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   scale: 1.1;
   filter: invert(75%);
 }
+
+.control-name {
+  @apply hover:underline;
+}
