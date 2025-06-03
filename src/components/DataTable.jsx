@@ -19,6 +19,16 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { CircleAlert, MoreHorizontal, X } from "lucide-react";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -42,6 +52,7 @@ import { CiSearch } from "react-icons/ci";
 import { useTransaction } from "../contexts/Transaction.context";
 import { useFilter } from "../contexts/Filter.context";
 import { AddTransactionForm, EditTransactionForm } from "./TransactionForm";
+import FilterContent from "./FilterContent";
 
 export const columns = [
   {
@@ -240,6 +251,7 @@ export function DataTable() {
   const { filteredTrs, isFilter } = useFilter();
   const data = isFilter ? filteredTrs : transactions;
 
+  const [isAddTransaction, setIsAddTransaction] = useState(false);
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -276,7 +288,7 @@ export function DataTable() {
 
   return (
     <div className="px-5 min:h-full">
-      <div className="flex items-center mb-3 md:gap-x-4 gap-x-1 w-full">
+      <div className="flex items-center mb-3 xl:gap-x-2 gap-x-1 w-full">
         <div className="flex-4/5 bg-[#121216] md:p-1.5 py-0.5 px-1.5 flex items-center border-neutral-800 border rounded-xs md:rounded-sm focus-within:border-blue-500 transition duration-75 justify-between">
           <div className="flex items-center pl-1 gap-x-2.5 w-full">
             <CiSearch />
@@ -303,26 +315,48 @@ export function DataTable() {
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <button className="py-1 px-1.5 md:px-2 md:py-1.5 gap-x-3 text-nowrap flex items-center justify-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer font-medium text-sm rounded-xs md:rounded-sm">
-              <IoMdAdd className="md:size-5 stroke-3 size-5" />
+            <button
+              onClick={() => setIsAddTransaction(true)}
+              className="py-1 px-1.5 md:px-2 md:py-1.5 gap-x-0.5 xl:gap-x-2 text-nowrap flex items-center justify-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer font-medium text-sm rounded-xs lg:rounded-sm"
+            >
+              <IoMdAdd className="xl:size-5 stroke-3 size-5" />
               <span className="hidden md:flex uppercase">add transaction</span>
             </button>
           </DialogTrigger>
-          <DialogContent className="bg-[#121216] flex px-0 py-0 flex-col text-white/85 border border-neutral-800 rounded-sm">
-            <DialogHeader>
-              <DialogTitle>
-                {/* <TransactionTitle title="new" /> */}
-              </DialogTitle>
+          {isAddTransaction && (
+            <DialogContent className="bg-[#121216] flex px-0 py-0 flex-col text-white/85 border border-neutral-800 rounded-sm">
+              <DialogHeader>
+                <DialogTitle>
+                  {/* <TransactionTitle title="new" /> */}
+                </DialogTitle>
 
-              <DialogDescription>
-                <AddTransactionForm />
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <DialogClose>{/* <TransactionFooter /> */}</DialogClose>
-            </DialogFooter>
-          </DialogContent>
+                <DialogDescription>
+                  <AddTransactionForm
+                    setIsAddTransaction={setIsAddTransaction}
+                  />
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose>{/* <TransactionFooter /> */}</DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          )}
         </Dialog>
+
+        <Sheet>
+          <SheetTrigger asChild>
+            <button
+              className={cn(
+                "py-1 px-1.5 md:px-2 md:py-1.5 text-nowrap hidden md:flex lg:hidden items-center justify-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer font-medium text-sm rounded-xs lg:rounded-sm"
+              )}
+            >
+              Filter
+            </button>
+          </SheetTrigger>
+          <SheetContent className="border-neutral-700 md:w-full w-[70%] text-white/80">
+            <FilterContent className="flex" />
+          </SheetContent>
+        </Sheet>
       </div>
 
       <div className="rounded-md border w-full overflow-x-scroll lg:overflow-hidden border-neutral-800">

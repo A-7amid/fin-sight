@@ -15,7 +15,7 @@ import "react-clock/dist/Clock.css";
 import { useForm } from "react-hook-form";
 import { useTransaction } from "../contexts/Transaction.context";
 
-export const AddTransactionForm = () => {
+export const AddTransactionForm = ({ setIsAddTransaction }) => {
   const { handleAddTransaction } = useTransaction();
   const {
     handleSubmit,
@@ -55,9 +55,14 @@ export const AddTransactionForm = () => {
     });
   }, [reset]);
 
+  const handleShown = () => {
+    setIsAddTransaction(false);
+  };
+
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
       handleReset();
+      handleShown();
     }
   }, [formState, reset, handleReset]);
 
@@ -212,8 +217,8 @@ export const AddTransactionForm = () => {
           </DialogPrimitive.Close>
 
           <button
-            type="submit"
             className="bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-500 hover:to-blue-300 transition duration-200 text-white p-2.5 px-4 text-xs font-bold uppercase rounded-sm cursor-pointer"
+            type="submit"
           >
             add
           </button>

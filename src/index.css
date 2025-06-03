@@ -179,3 +179,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     display: none;
   }
 }
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .hi {
+    display: none;
+  }
+}
