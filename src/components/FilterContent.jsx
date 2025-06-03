@@ -208,7 +208,7 @@ export const FilterContent = ({ className }) => {
   return (
     <div
       className={cn(
-        "md:flex flex-col hidden border border-neutral-800 min-h-screen max-h-full md:w-[440px] bg-[#121216]",
+        "lg:flex flex-col hidden border border-neutral-800 min-h-screen max-h-full lg:w-[440px] bg-[#121216]",
         className
       )}
     >
@@ -218,8 +218,6 @@ export const FilterContent = ({ className }) => {
       </div>
 
       <div className="h-px w-full bg-neutral-800"></div>
-
-      {/* <button onClick={() => handleFilter()}>click me</button> */}
 
       <div className="flex flex-col gap-y-8 p-4">
         <div className="flex flex-col gap-2">

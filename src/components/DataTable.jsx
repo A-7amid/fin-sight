@@ -192,25 +192,25 @@ export const columns = [
                     Delete
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="bg-[#121216] flex px-0 flex-col text-white/85 py-4 border border-neutral-800 rounded-sm">
-                  <DialogHeader>
-                    <DialogTitle className="font-bold items-center px-3 text-xl gap-x-4 flex justify-start text-white/85">
+                <DialogContent className="bg-[#121216] flex px-0 flex-col text-white/85 py-2.5 md:py-4 border w-[70%] border-neutral-800 rounded-sm">
+                  <DialogHeader className="flex flex-col">
+                    <DialogTitle className="font-semibold md:font-bold items-center px-3 text-md md:text-xl gap-x-4 flex justify-start text-white/85">
                       <CircleAlert color={"red"} />
                       <span>Delete Transaction</span>
                     </DialogTitle>
 
-                    <div className="bg-neutral-800 h-px my-2.5 w-full flex"></div>
+                    <div className="bg-neutral-800 h-px my-1.5 md:my-2.5 w-full flex"></div>
 
-                    <DialogDescription className="px-3">
+                    <DialogDescription className="px-3 text-xs md:text-md">
                       Are you sure you want to delete the selected transaction?
                     </DialogDescription>
                   </DialogHeader>
 
-                  <DialogFooter className="flex items-center px-3 gap-x-2 mt-2">
+                  <DialogFooter className="flex items-center px-2 gap-1 md:px-3 md:gap-2 md:mt-2">
                     <DialogClose>
                       <button
                         type="button"
-                        className="px-5 py-1.5 bg-neutral-700 hover:bg-neutral-600 border border-zinc-800 cursor-pointer rounded-md text-neutral-200 transition duration-150 hover:text-white"
+                        className="px-3 py-1 md:px-5 md:py-1.5 bg-neutral-700 text-sm md:text-md hover:bg-neutral-600 border border-zinc-800 cursor-pointer rounded-sm md:rounded-md text-neutral-200 transition duration-150 hover:text-white"
                       >
                         Cancel
                       </button>
@@ -219,7 +219,7 @@ export const columns = [
                       <button
                         type="submit"
                         onClick={() => handleDeleteTransaction(row.original)}
-                        className="px-5 py-1.5 cursor-pointer rounded-md bg-red-600 text-white"
+                        className="px-3 py-1 md:px-5 md:py-1.5 cursor-pointer text-sm md:text-md rounded-sm md:rounded-md bg-red-600 text-white"
                       >
                         Delete
                       </button>
@@ -325,22 +325,14 @@ export function DataTable() {
         </Dialog>
       </div>
 
-      <div className="rounded-md border md:w-full w-[200px] border-neutral-800">
-        <Table className="capitalize">
-          <TableHeader className="border-b border-neutral-800 bg-[#1a1a1f]">
+      <div className="rounded-md border w-full overflow-x-scroll md:overflow-hidden border-neutral-800">
+        <Table className="capitalize overflow-x-scroll">
+          <TableHeader className="border-b  border-neutral-800 bg-[#1a1a1f]">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead
-                      className={cn("py-0.5 md:visible invisible", {
-                        "visible py-0.5":
-                          header.id === "category" ||
-                          header.id === "select" ||
-                          header.id === "amount",
-                      })}
-                      key={header.id}
-                    >
+                    <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -353,7 +345,7 @@ export function DataTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="bg-[#121216] ">
+          <TableBody className="bg-[#121216]">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -365,21 +357,7 @@ export function DataTable() {
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      <div
-                        className={cn(
-                          "rounded-2xl md:visible invisible",
-                          {
-                            "text-right bg-yellow-500 w-full":
-                              cell.column.id == "amount",
-                          },
-                          {
-                            "visible text-white":
-                              cell.column.id === "category" ||
-                              cell.column.id === "select" ||
-                              cell.column.id === "amount",
-                          }
-                        )}
-                      >
+                      <div>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

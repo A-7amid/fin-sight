@@ -12,7 +12,7 @@ const TransactionsPage = () => {
     >
       <Sidebar />
 
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col lg:w-full overflow-x-scroll lg:overflow-x-hidden">
         <Transactions />
       </div>
 
