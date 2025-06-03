@@ -36,7 +36,7 @@ const SidebarContent = () => {
   const formattedBalance = new Intl.NumberFormat("en-US").format(balance);
 
   return (
-    <div className="gap-y-4 flex flex-col md:w-[245px] relative">
+    <div className="gap-y-4 flex flex-col md:w-[210px] lg:w-[245px] relative">
       <div className="flex flex-col gap-y-2 items-center justify-center mx-8 px-7">
         <img
           src="/assets/images/tobi.png"

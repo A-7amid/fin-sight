@@ -173,3 +173,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .control-name {
   @apply hover:underline;
 }
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .hide-lg-xl {
+    display: none;
+  }
+}

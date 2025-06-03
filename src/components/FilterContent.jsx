@@ -208,7 +208,7 @@ export const FilterContent = ({ className }) => {
   return (
     <div
       className={cn(
-        "lg:flex flex-col hidden border border-neutral-800 min-h-screen max-h-full lg:w-[440px] bg-[#121216]",
+        "lg:flex flex-col hidden border border-neutral-800 min-h-screen max-h-full lg:w-[270px] xl:w-[370px] bg-[#121216]",
         className
       )}
     >

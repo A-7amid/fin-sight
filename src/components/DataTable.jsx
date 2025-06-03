@@ -303,7 +303,7 @@ export function DataTable() {
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <button className="py-1 md:px-2 md:py-1.5 gap-x-3 grow flex items-center justify-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer font-medium text-sm rounded-xs md:rounded-sm">
+            <button className="py-1 px-1.5 md:px-2 md:py-1.5 gap-x-3 text-nowrap flex items-center justify-center bg-blue-500 hover:bg-blue-600 transition duration-200 cursor-pointer font-medium text-sm rounded-xs md:rounded-sm">
               <IoMdAdd className="md:size-5 stroke-3 size-5" />
               <span className="hidden md:flex uppercase">add transaction</span>
             </button>
@@ -325,14 +325,20 @@ export function DataTable() {
         </Dialog>
       </div>
 
-      <div className="rounded-md border w-full overflow-x-scroll md:overflow-hidden border-neutral-800">
+      <div className="rounded-md border w-full overflow-x-scroll lg:overflow-hidden border-neutral-800">
         <Table className="capitalize overflow-x-scroll">
           <TableHeader className="border-b  border-neutral-800 bg-[#1a1a1f]">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      className={cn({
+                        "font-medium hide-lg-xl":
+                          header.column.columnDef.header === "Description",
+                      })}
+                      key={header.id}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -356,7 +362,14 @@ export function DataTable() {
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      className={cn({
+                        "font-medim hide-lg-xl":
+                          cell.column.id === "description",
+                      })}
+                      key={cell.id}
+                    >
+                      {console.log(cell)}
                       <div>
                         {flexRender(
                           cell.column.columnDef.cell,
