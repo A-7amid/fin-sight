@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BiDollar } from "react-icons/bi";
 import Aos from "aos";
 import "aos/dist/aos.css";
@@ -16,12 +16,15 @@ import { useForm } from "react-hook-form";
 import { useTransaction } from "../contexts/Transaction.context";
 
 export const AddTransactionForm = ({ setIsAddTransaction }) => {
-  const { handleAddTransaction } = useTransaction();
+  const { handleAddTransaction, transactions, setTransactions } =
+    useTransaction();
+
+  const [submissions, setSubmissions] = useState(transactions);
+
   const {
     handleSubmit,
     register,
     control,
-    formState,
     formState: { errors },
     reset,
   } = useForm({
@@ -32,19 +35,9 @@ export const AddTransactionForm = ({ setIsAddTransaction }) => {
       amount: "",
       paymentMode: "cash",
       transactionType: "expense",
+      transactions: transactions,
     },
   });
-
-  useEffect(() => {
-    Aos.init({
-      offset: 120,
-      delay: 0,
-      duration: 100,
-      easing: "ease",
-      once: false,
-      mirror: false,
-    });
-  }, []);
 
   const handleReset = useCallback(() => {
     reset({
@@ -55,24 +48,18 @@ export const AddTransactionForm = ({ setIsAddTransaction }) => {
     });
   }, [reset]);
 
-  const handleShown = () => {
-    setIsAddTransaction(false);
-  };
-
-  useEffect(() => {
-    if (formState.isSubmitSuccessful) {
-      handleReset();
-      handleShown();
-    }
-  }, [formState, reset, handleReset]);
-
   const onSubmit = (data) => {
     handleAddTransaction(data);
+    const handleShown = () => {
+      setIsAddTransaction(false);
+    };
+    handleShown();
+    setSubmissions((prev) => [...prev, data]);
+    reset();
   };
 
   return (
     <form
-      data-aos="zoom-in-up"
       onSubmit={handleSubmit(onSubmit)}
       className="bg-[#121216] text-white/70 flex flex-col "
     >
@@ -136,6 +123,7 @@ export const AddTransactionForm = ({ setIsAddTransaction }) => {
             <SelectCategory
               name="category"
               control={control}
+              isEdit={false}
               id="select-category"
             />
           </div>
@@ -228,8 +216,7 @@ export const AddTransactionForm = ({ setIsAddTransaction }) => {
   );
 };
 
-export const EditTransactionForm = () => {
-  const { handleAddTransaction } = useTransaction();
+export const EditTransactionForm = ({ transaction }) => {
   const {
     handleSubmit,
     register,
@@ -240,24 +227,13 @@ export const EditTransactionForm = () => {
   } = useForm({
     defaultValues: {
       time: dayjs().format("HH:mm"),
-      date: dayjs().format("YYYY-MM-DD"),
-      description: "",
-      amount: "",
-      paymentMode: "cash",
-      transactionType: "expense",
+      date: transaction.date,
+      description: transaction.description,
+      amount: transaction.amount,
+      paymentMode: transaction.paymentMode,
+      transactionType: transaction.transactionType,
     },
   });
-
-  useEffect(() => {
-    Aos.init({
-      offset: 120,
-      delay: 0,
-      duration: 100,
-      easing: "ease",
-      once: false,
-      mirror: false,
-    });
-  }, []);
 
   const handleReset = useCallback(() => {
     reset({
@@ -275,12 +251,11 @@ export const EditTransactionForm = () => {
   }, [formState, reset, handleReset]);
 
   const onSubmit = (data) => {
-    handleAddTransaction(data);
+    console.log(data);
   };
 
   return (
     <form
-      data-aos="zoom-in-up"
       onSubmit={handleSubmit(onSubmit)}
       className="bg-[#121216] text-white/70 flex flex-col "
     >
@@ -345,6 +320,8 @@ export const EditTransactionForm = () => {
               name="category"
               control={control}
               id="select-category"
+              isEdit={true}
+              selectedCategory={transaction.category}
             />
           </div>
 

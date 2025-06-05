@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
   Select,
   SelectContent,
@@ -32,14 +30,17 @@ const categories = [
   { value: "education", label: "Education" },
 ];
 
-const SelectCategory = ({ id, name, control }) => {
+const SelectCategory = ({ id, name, control, selectedCategory, isEdit }) => {
   return (
     <Controller
       control={control}
       rules={{ required: true }}
       name={name}
       render={({ field }) => (
-        <Select value={field.value} onValueChange={field.onChange}>
+        <Select
+          value={isEdit ? selectedCategory.toLowerCase() : field.value}
+          onValueChange={field.onChange}
+        >
           <SelectTrigger
             id={id}
             className="flex items-center w-full bg-white/5 hover:bg-white/10 border-neutral-700 hover:border-neutral-600 cursor-pointer"

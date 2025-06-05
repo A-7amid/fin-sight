@@ -141,6 +141,7 @@ export const columns = [
     enableHiding: false,
     cell: ({ row }) => {
       const { handleDeleteTransaction } = useTransaction();
+      // console.log(row);
 
       return (
         <DropdownMenu>
@@ -172,19 +173,15 @@ export const columns = [
                 </DialogTrigger>
                 <DialogContent className="bg-[#121216] flex px-0 py-0 flex-col text-white/85 border border-neutral-800 rounded-sm">
                   <DialogHeader>
-                    <DialogTitle>
-                      {/* <TransactionTitle title="Edit" /> */}
-                    </DialogTitle>
+                    <DialogTitle></DialogTitle>
 
                     <DialogDescription>
-                      <EditTransactionForm />
-                      {/* <TransactionContent title="edit" /> */}
-                      {/* <TransactionDescription transaction={row.original} /> */}
+                      <EditTransactionForm transaction={row.original} />
                     </DialogDescription>
                   </DialogHeader>
 
                   <DialogFooter>
-                    <DialogClose>{/* <TransactionFooter /> */}</DialogClose>
+                    <DialogClose></DialogClose>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
@@ -403,7 +400,6 @@ export function DataTable() {
                       })}
                       key={cell.id}
                     >
-                      {console.log(cell)}
                       <div>
                         {flexRender(
                           cell.column.columnDef.cell,
