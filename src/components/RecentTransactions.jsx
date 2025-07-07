@@ -21,6 +21,7 @@ const transactionsHeaders = [
 const RecentTransactions = () => {
   const { transactions } = useTransaction();
   const recentTransactions = transactions.slice(0, 5);
+  console.log(recentTransactions);
   return (
     <div className="rounded-lg flex flex-col border capitalize border-neutral-800 pt-5 mb-3 bg-[#121216] w-full">
       <h2 className="font-semibold text-xl px-5 mb-4">Recent Transactions</h2>

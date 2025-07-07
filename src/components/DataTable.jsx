@@ -51,7 +51,7 @@ import { IoMdAdd } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { useTransaction } from "../contexts/Transaction.context";
 import { useFilter } from "../contexts/Filter.context";
-import { AddTransactionForm, EditTransactionForm } from "./TransactionForm";
+import { TransactionForm } from "./TransactionForm";
 import FilterContent from "./FilterContent";
 
 export const columns = [
@@ -176,7 +176,7 @@ export const columns = [
                     <DialogTitle></DialogTitle>
 
                     <DialogDescription>
-                      <EditTransactionForm transaction={row.original} />
+                      <TransactionForm />
                     </DialogDescription>
                   </DialogHeader>
 
@@ -328,9 +328,7 @@ export function DataTable() {
                 </DialogTitle>
 
                 <DialogDescription>
-                  <AddTransactionForm
-                    setIsAddTransaction={setIsAddTransaction}
-                  />
+                  <TransactionForm setIsAddTransaction={setIsAddTransaction} />
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>
